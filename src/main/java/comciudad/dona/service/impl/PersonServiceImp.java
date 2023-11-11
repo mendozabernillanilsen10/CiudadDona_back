@@ -1,6 +1,6 @@
 package comciudad.dona.service.impl;
 
-import java.util.List; 
+import java.util.List;  
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,20 +8,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import comciudad.dona.entity.Address;
-import comciudad.dona.entity.Category;
-import comciudad.dona.entity.Pais;
 import comciudad.dona.entity.Person;
-import comciudad.dona.entity.Role;
+
 import comciudad.dona.entity.User;
-import comciudad.dona.entity.ubdepartamento;
-import comciudad.dona.entity.ubprovincia;
 import comciudad.dona.exceptions.GeneralServiceException;
 import comciudad.dona.exceptions.NoDataFoundException;
 import comciudad.dona.exceptions.ValidateServiceException;
 import comciudad.dona.repository.personRepository;
 import comciudad.dona.service.PersonService;
-import comciudad.dona.validadors.AddressValid;
 import comciudad.dona.validadors.PersonaValid;
 import lombok.extern.slf4j.Slf4j;
 @Service

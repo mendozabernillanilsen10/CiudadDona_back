@@ -45,7 +45,7 @@ public class categoriaControllers {
 	private categoriaConverters converter = new categoriaConverters();
 	@Value("${spring.servlet.multipart.location}")
 	private String uploadPath;
-
+      
 	@GetMapping
 	public ResponseEntity<List<CategoriaDTO>> findAll(
 			@RequestParam(value = "offset", required = false, defaultValue = "0") int pageNumber,

@@ -22,7 +22,6 @@ public class ApplicationConfig {
 	AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
 		return config.getAuthenticationManager();
 	}
-
 	@Bean
 	AuthenticationProvider authenticationProvider() {
 		DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
@@ -30,12 +29,10 @@ public class ApplicationConfig {
 		authenticationProvider.setPasswordEncoder(passwordEncoder());
 		return authenticationProvider;
 	}
-
 	@Bean
 	PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-
 	@Bean
 	UserDetailsService userDetailService() {
 		return Username -> userRepository.findByUsername(Username)

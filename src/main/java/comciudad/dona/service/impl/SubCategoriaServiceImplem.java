@@ -1,12 +1,11 @@
 package comciudad.dona.service.impl;
-import java.util.List; 
+import java.util.List;  
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import comciudad.dona.dtos.AuthResponse;
-import comciudad.dona.dtos.RegisterRequest;
+
 import comciudad.dona.entity.Category;
 import comciudad.dona.entity.Subcategory;
 import comciudad.dona.exceptions.GeneralServiceException;

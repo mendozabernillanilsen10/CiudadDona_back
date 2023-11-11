@@ -1,9 +1,8 @@
 package comciudad.dona.service.impl;
 
-import java.util.List; 
+import java.util.List;  
 import java.util.UUID;
 
-import comciudad.dona.entity.Address;
 import comciudad.dona.entity.Company;
 import comciudad.dona.entity.User;
 import comciudad.dona.exceptions.GeneralServiceException;

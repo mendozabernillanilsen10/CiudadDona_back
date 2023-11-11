@@ -9,6 +9,7 @@ import comciudad.dona.entity.ubprovincia;
 
 @Repository
 public interface DistritoRepository extends JpaRepository<ubdistrito, Long> {
-	List<ubdistrito> findBynombreContaining(String nombre, Pageable page);
-	List<ubdistrito> findByidProv(ubprovincia cliente);
+	List<ubdistrito> findBynombreContaining(String nombre,Pageable  page);
+    List<ubdistrito> findByidProv(ubprovincia idProv);
+
 }

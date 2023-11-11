@@ -1,20 +1,18 @@
 package comciudad.dona.service.impl;
 
-import java.util.List;
+import java.util.List; 
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import comciudad.dona.entity.Address;
 import comciudad.dona.entity.Responsible;
 import comciudad.dona.exceptions.GeneralServiceException;
 import comciudad.dona.exceptions.NoDataFoundException;
 import comciudad.dona.exceptions.ValidateServiceException;
 import comciudad.dona.repository.ResponsibleRepository;
 import comciudad.dona.service.ResponsiService;
-import comciudad.dona.validadors.AddressValid;
 import comciudad.dona.validadors.ResponsibleValid;
 import lombok.extern.slf4j.Slf4j;
 @Service
