@@ -106,10 +106,8 @@ public class PersonaControllers {
 				    RolDTO articulosDTO =roleconverter.fromEntity(role);
 				    AuthResponse authResponse = authService.register(request);
 			        UsuarioDTO userdto  = converter.fromEntity(authResponse.getUsuario());
-			       
 			        User usuario  = new User();
 			        usuario.setId(authResponse.getUsuario().getId());
-			        
 			        Person per = new Person();
 		            per.setIdUser(usuario);
 		            per.setSurName(apellido);
@@ -121,10 +119,8 @@ public class PersonaControllers {
 		            phone.setCelular(Numero_celular);
 		            phone.setWhatsapp(Numero_whatsapp);
 		            phone.setIdUser(usuario);
-		            Phone newPhone = servicePhone.save(phone);
-		            
+		            Phone newPhone = servicePhone.save(phone);   
 		    	    PhoneDTO phoneDTO = Phoneconvert.fromEntity(newPhone);
-		    	    
 		            ubdistrito dis = distritoService.findById(IdDistrito);
 		            Address address = new Address();
 		            address.setStreet(street);
@@ -133,10 +129,7 @@ public class PersonaControllers {
 		            address.setIdUser(usuario);
 		            Address newAddress = serviceAdress.save(address);
 		    	    AddressDTO adresDTO = Adressconverter.fromEntity(newAddress);
-		    	    
-		    	    
-		    	    
-		    	    
+		    	       
 		    	    PesonDTO perdto = conPersona.fromEntity(per);
 				    respuestafinal.setRole(articulosDTO);
 		    	    respuestafinal.setUsuario(userdto);
@@ -145,8 +138,6 @@ public class PersonaControllers {
 		    	    respuestafinal.setPhone(phoneDTO);
 		    	    respuestafinal.setAddres(adresDTO);
 		            transactionManager.commit(status);
-		            
-		            
 		            
 		        	return new WrapperResponse<>(true,"success",respuestafinal)
 		    				.createResponse(HttpStatus.OK);

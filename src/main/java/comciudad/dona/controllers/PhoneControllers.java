@@ -44,8 +44,12 @@ public class PhoneControllers {
 		List<PhoneDTO> articulosDTO = converter.fromEntity(articulos);
 		return new WrapperResponse(true, "success", articulosDTO).createResponse(HttpStatus.OK);
 	}
+	
+	
 
-	/*F
+	/*
+	 * F
+	 * 
 	 * @PostMapping(value = "/registers") public ResponseEntity<PhoneDTO> create(
 	 * 
 	 * @RequestParam("IdPersona") UUID idPersona,
