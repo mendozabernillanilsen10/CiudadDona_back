@@ -210,8 +210,7 @@ public class companiaController {
 		CompanyDTO compDTO=converter.fromEntity(compani);
 		return new WrapperResponse(true, "success", compDTO).createResponse(HttpStatus.CREATED);
 	}
-	
-	
+
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<CompanyDTO> update(@PathVariable("id") Long id,@RequestBody CompanyDTO ingreso) {
 		Company updateIngreso = service.save(converter.fromDTO(ingreso));
@@ -221,8 +220,6 @@ public class companiaController {
 		CompanyDTO ingresoReturn=converter.fromEntity(updateIngreso);
 		return new WrapperResponse(true, "success", ingresoReturn).createResponse(HttpStatus.OK);
 	}
-	
-	
 	
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<?> delete(@PathVariable("id") UUID id) {
