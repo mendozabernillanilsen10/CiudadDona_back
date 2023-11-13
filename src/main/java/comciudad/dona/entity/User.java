@@ -1,4 +1,5 @@
 package comciudad.dona.entity;
+import java.time.LocalDateTime;
 import java.util.Collection;   
 import java.util.List;
 import java.util.UUID;
@@ -53,6 +54,12 @@ public class User  implements UserDetails  {
 	@Column(name="activo",nullable=false)
 	private Boolean activo;
     
+	private String otp;
+	private LocalDateTime otpGeneratedTime;
+	
+	
+	
+	
 	@Enumerated(EnumType.STRING) 
 	RolesAcces roles;
 	@Override

@@ -25,8 +25,6 @@ public class file {
 	            return null;
 	        }
 	    }
-	    
-	    
 	    // Método para eliminar la foto del servidor
 	    public void deleteFoto(String fotoUrl) {
 	        if (fotoUrl != null) {
