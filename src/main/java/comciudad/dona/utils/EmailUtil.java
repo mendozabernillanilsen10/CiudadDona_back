@@ -11,18 +11,16 @@ public class EmailUtil {
 
   @Autowired
   private JavaMailSender javaMailSender;
-
+  correo  c= new correo();
   public void sendOtpEmail(String email, String otp) throws MessagingException {
     MimeMessage mimeMessage = javaMailSender.createMimeMessage();
     MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
     mimeMessageHelper.setTo(email);
-    mimeMessageHelper.setSubject("Verify OTP");
-    mimeMessageHelper.setText("""
-        <div>
-          <a href="http://localhost:8080/sistema/verify-account?email=%s&otp=%s" 
-          target="_blank">verificar contraceña </a>
-        </div>
-        """.formatted(email, otp), true);
+    mimeMessageHelper.setSubject("Verificacion de Cuenta");
+    String content = c.getHtmlContent(otp);
+    mimeMessageHelper.setText(content, true);
     javaMailSender.send(mimeMessage);
   }
 }
+
+

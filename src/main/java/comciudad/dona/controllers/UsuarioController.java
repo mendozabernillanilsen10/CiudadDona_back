@@ -1,9 +1,13 @@
 package comciudad.dona.controllers;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -76,11 +80,12 @@ public class UsuarioController {
 	public ResponseEntity<String> verifyAccount(@RequestParam String email, @RequestParam String otp) {
 		return new ResponseEntity<>(authService.verifyAccount(email, otp), HttpStatus.OK);
 	}
-
+	
 	@PutMapping("/EmailGenerecodigo")
 	public ResponseEntity<String> regenerateOtp(@RequestParam String email) {
 		return new ResponseEntity<>(authService.regenerateOtp(email), HttpStatus.OK);
 	}
+	
 	@PostMapping(value = "/login")
 	public ResponseEntity<WrapperResponse<IngresosResponse>> login(
 			@RequestBody LoginRequest request) {

@@ -28,7 +28,6 @@ spring:
     port: 587
     username: dona78073@gmail.com
     password: myxinyinvowcrdba  
-        
 logging:
   level:
     root: WARN
