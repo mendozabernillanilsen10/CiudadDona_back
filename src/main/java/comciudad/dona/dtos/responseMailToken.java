@@ -1,8 +1,6 @@
 package comciudad.dona.dtos;
-import java.util.UUID; 
 
-
-import lombok.AllArgsConstructor;  
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,9 +11,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CategoriaDTO {
-    private UUID id;
-    private String nombre;
-    private String  foto_url; 
-    private Boolean activo;
+public class responseMailToken {
+	private String mensaje;
+	private String Token;
+	private String mail;
 }

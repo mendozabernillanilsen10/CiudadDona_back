@@ -27,16 +27,23 @@ import comciudad.dona.dtos.AddressDTO;
 import comciudad.dona.dtos.AuthResponse;
 import comciudad.dona.dtos.CompanyDTO;
 import comciudad.dona.dtos.LoginRequest;
+import comciudad.dona.dtos.MailOTPdto;
 import comciudad.dona.dtos.PesonDTO;
 import comciudad.dona.dtos.PhoneDTO;
+import comciudad.dona.dtos.ResponseEmailDto;
 import comciudad.dona.dtos.RolDTO;
 import comciudad.dona.dtos.UsuarioDTO;
+import comciudad.dona.dtos.posMaildto;
+import comciudad.dona.dtos.responseMailToken;
 import comciudad.dona.entity.Address;
 import comciudad.dona.entity.Company;
 import comciudad.dona.entity.Person;
 import comciudad.dona.entity.Phone;
 import comciudad.dona.entity.Role;
 import comciudad.dona.entity.User;
+import comciudad.dona.exceptions.GeneralServiceException;
+import comciudad.dona.exceptions.NoDataFoundException;
+import comciudad.dona.exceptions.ValidateServiceException;
 import comciudad.dona.service.AddressService;
 import comciudad.dona.service.AuthService;
 import comciudad.dona.service.DistritoService;
@@ -51,7 +58,6 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/v1/users")
 public class UsuarioController {
-
 	private final AuthService authService;
 	@Autowired
 	RolService serviceRole;
@@ -75,20 +81,57 @@ public class UsuarioController {
 	PersonaConverters convert = new PersonaConverters();
 	PhoneConverters Phoneconverter = new PhoneConverters();
 	AddressConverters Adressconverter = new AddressConverters();
-
-	@PutMapping("/EmailValidacodigo")
-	public ResponseEntity<String> verifyAccount(@RequestParam String email, @RequestParam String otp) {
-		return new ResponseEntity<>(authService.verifyAccount(email, otp), HttpStatus.OK);
+	ResponseEmailDto ms;
+	@PostMapping("/EmailValidacodigo")
+	public ResponseEntity<WrapperResponse<responseMailToken>> verifyAccount(
+			@RequestBody MailOTPdto d) {
+		try {
+			responseMailToken mensaje = authService.verifyAccount(d.getMail(), d.getOtp());
+        return new WrapperResponse<>(true, "success", mensaje).createResponse(HttpStatus.OK);
+		} catch (ValidateServiceException e) {
+			throw new GeneralServiceException(e.getMessage(), e);
+		} catch (NoDataFoundException e) {
+			throw new GeneralServiceException(e.getMessage(), e);
+		} catch (Exception e) {
+			throw new GeneralServiceException(e.getMessage(), e);
+		}
 	}
 	
-	@PutMapping("/EmailGenerecodigo")
-	public ResponseEntity<String> regenerateOtp(@RequestParam String email) {
-		return new ResponseEntity<>(authService.regenerateOtp(email), HttpStatus.OK);
+	@PutMapping(value = "/reset")
+	public ResponseEntity<WrapperResponse<ResponseEmailDto>> reset(
+			@RequestBody LoginRequest request) {
+		try {
+			ResponseEmailDto mensaje = authService.ResetPassword(request);
+			return new WrapperResponse<>(true, "success", mensaje).createResponse(HttpStatus.OK);
+		} catch (ValidateServiceException e) {
+			throw new GeneralServiceException(e.getMessage(), e);
+		} catch (NoDataFoundException e) {
+			throw new GeneralServiceException(e.getMessage(), e);
+		} catch (Exception e) {
+			throw new GeneralServiceException(e.getMessage(), e);
+		}
+	}
+	
+	@PostMapping("/EmailGenerecodigo")
+	public ResponseEntity<WrapperResponse<ResponseEmailDto>>  geneararOtpw(
+			@RequestBody posMaildto d){
+		try {
+		ResponseEmailDto mensaje = authService.regenerateOtp(d.getEmail());
+		return new WrapperResponse<>(true, "success", mensaje).createResponse(HttpStatus.OK);
+		
+		} catch (ValidateServiceException e) {
+			throw new GeneralServiceException(e.getMessage(), e);
+		} catch (NoDataFoundException e) {
+			throw new GeneralServiceException(e.getMessage(), e);
+		} catch (Exception e) {
+			throw new GeneralServiceException(e.getMessage(), e);
+		}
 	}
 	
 	@PostMapping(value = "/login")
 	public ResponseEntity<WrapperResponse<IngresosResponse>> login(
 			@RequestBody LoginRequest request) {
+		try {
 		AuthResponse authResponse = authService.login(request);
 		IngresosResponse respuestafinal = new IngresosResponse();
 		UsuarioDTO userdto = converter.fromEntity(authResponse.getUsuario());
@@ -112,6 +155,13 @@ public class UsuarioController {
 		respuestafinal.setAddres(adresDTO);
 		respuestafinal.setEmpresa(compDTO);
 		return new WrapperResponse<>(true, "success", respuestafinal).createResponse(HttpStatus.OK);
-	}
-
+		} catch (ValidateServiceException e) {
+			throw new GeneralServiceException(e.getMessage(), e);
+		} catch (NoDataFoundException e) {
+			throw new GeneralServiceException(e.getMessage(), e);
+		} catch (Exception e) {
+			throw new GeneralServiceException(e.getMessage(), e);
+		}
+		
+		}
 }

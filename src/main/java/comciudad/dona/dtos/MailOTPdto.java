@@ -1,18 +1,15 @@
 package comciudad.dona.dtos;
-
-
-
-import comciudad.dona.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-@Data
+import lombok.Setter;
 @Builder
-@NoArgsConstructor
+@Getter
+@Setter
 @AllArgsConstructor
-public class AuthResponse  {
-    String token; 
-    User usuario;
+@NoArgsConstructor
+public class MailOTPdto {
+	 String mail;
+	 String otp;
 }
