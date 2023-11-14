@@ -1,6 +1,10 @@
 server:
   servlet:
     context-path: /sistema
+twilio:
+  account_sid: AC634513ac9afa77e70e742fe029ad62f8
+  auth_token: d53eb6b9f201bdb03f0424432094ce3c
+  trial_number: +12565764221
 spring:
   datasource:
     url: jdbc:mysql://localhost/ciudadonabd?useSSL=false&serverTimezone=GMT

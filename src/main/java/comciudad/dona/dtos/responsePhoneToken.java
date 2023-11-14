@@ -11,8 +11,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class responseMailToken {
+public class responsePhoneToken {
 	private String mensaje;
 	private String Token;
-	private String email;
+	private String Phone;
 }

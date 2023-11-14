@@ -1,18 +1,13 @@
 package comciudad.dona.controllers;
 
-import java.util.UUID;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import comciudad.dona.converters.AddressConverters;
@@ -28,6 +23,8 @@ import comciudad.dona.dtos.AuthResponse;
 import comciudad.dona.dtos.CompanyDTO;
 import comciudad.dona.dtos.LoginRequest;
 import comciudad.dona.dtos.MailOTPdto;
+import comciudad.dona.dtos.OtpRequest;
+import comciudad.dona.dtos.OtpValidationRequest;
 import comciudad.dona.dtos.PesonDTO;
 import comciudad.dona.dtos.PhoneDTO;
 import comciudad.dona.dtos.ResponseEmailDto;
@@ -82,12 +79,12 @@ public class UsuarioController {
 	PhoneConverters Phoneconverter = new PhoneConverters();
 	AddressConverters Adressconverter = new AddressConverters();
 	ResponseEmailDto ms;
+
 	@PostMapping("/EmailValidacodigo")
-	public ResponseEntity<WrapperResponse<responseMailToken>> verifyAccount(
-			@RequestBody MailOTPdto d) {
+	public ResponseEntity<WrapperResponse<responseMailToken>> verifyAccount(@RequestBody MailOTPdto d) {
 		try {
-			responseMailToken mensaje = authService.verifyAccount(d.getMail(), d.getOtp());
-        return new WrapperResponse<>(true, "success", mensaje).createResponse(HttpStatus.OK);
+			responseMailToken mensaje = authService.verifyAccount(d.getEmail(), d.getOtp());
+			return new WrapperResponse<>(true, "success", mensaje).createResponse(HttpStatus.OK);
 		} catch (ValidateServiceException e) {
 			throw new GeneralServiceException(e.getMessage(), e);
 		} catch (NoDataFoundException e) {
@@ -96,10 +93,23 @@ public class UsuarioController {
 			throw new GeneralServiceException(e.getMessage(), e);
 		}
 	}
-	
+
+	@PostMapping("/PhoneValidacodigo")
+	public ResponseEntity<WrapperResponse<responseMailToken>> verifyAccountPhone(@RequestBody OtpValidationRequest d) {
+		try {
+			responseMailToken mensaje = authService.verifyAccountPhone(d.getPhoneNumber(), d.getOtp());
+			return new WrapperResponse<>(true, "success", mensaje).createResponse(HttpStatus.OK);
+		} catch (ValidateServiceException e) {
+			throw new GeneralServiceException(e.getMessage(), e);
+		} catch (NoDataFoundException e) {
+			throw new GeneralServiceException(e.getMessage(), e);
+		} catch (Exception e) {
+			throw new GeneralServiceException(e.getMessage(), e);
+		}
+	}
+
 	@PutMapping(value = "/reset")
-	public ResponseEntity<WrapperResponse<ResponseEmailDto>> reset(
-			@RequestBody LoginRequest request) {
+	public ResponseEntity<WrapperResponse<ResponseEmailDto>> reset(@RequestBody LoginRequest request) {
 		try {
 			ResponseEmailDto mensaje = authService.ResetPassword(request);
 			return new WrapperResponse<>(true, "success", mensaje).createResponse(HttpStatus.OK);
@@ -111,14 +121,13 @@ public class UsuarioController {
 			throw new GeneralServiceException(e.getMessage(), e);
 		}
 	}
-	
+
 	@PostMapping("/EmailGenerecodigo")
-	public ResponseEntity<WrapperResponse<ResponseEmailDto>>  geneararOtpw(
-			@RequestBody posMaildto d){
+	public ResponseEntity<WrapperResponse<ResponseEmailDto>> geneararOtpw(@RequestBody posMaildto d) {
 		try {
-		ResponseEmailDto mensaje = authService.regenerateOtp(d.getEmail());
-		return new WrapperResponse<>(true, "success", mensaje).createResponse(HttpStatus.OK);
-		
+			ResponseEmailDto mensaje = authService.regenerateOtp(d.getEmail());
+			return new WrapperResponse<>(true, "success", mensaje).createResponse(HttpStatus.OK);
+
 		} catch (ValidateServiceException e) {
 			throw new GeneralServiceException(e.getMessage(), e);
 		} catch (NoDataFoundException e) {
@@ -127,34 +136,13 @@ public class UsuarioController {
 			throw new GeneralServiceException(e.getMessage(), e);
 		}
 	}
-	
-	@PostMapping(value = "/login")
-	public ResponseEntity<WrapperResponse<IngresosResponse>> login(
-			@RequestBody LoginRequest request) {
+
+	@PostMapping("/PhoneGenerecodigo")
+	public ResponseEntity<WrapperResponse<ResponseEmailDto>> geneararOtPone(@RequestBody OtpRequest request) {
 		try {
-		AuthResponse authResponse = authService.login(request);
-		IngresosResponse respuestafinal = new IngresosResponse();
-		UsuarioDTO userdto = converter.fromEntity(authResponse.getUsuario());
-		Role role = serviceRole.findById(authResponse.getUsuario().getRole().getId());
-		RolDTO articulosDTO = roleconverter.fromEntity(role);
-		Person per = ser.findByidUser(authResponse.getUsuario());
-		PesonDTO perdto = conPersona.fromEntity(per);
-		respuestafinal.setPersona(perdto);
-		User usuario = new User();
-		usuario.setId(authResponse.getUsuario().getId());
-		Phone phone = servicePhone.finByIdUser(usuario);
-		PhoneDTO phoneDto = Phoneconverter.fromEntity(phone);
-		Address address = serviceAdress.finByIdUser(usuario);
-		AddressDTO adresDTO = Adressconverter.fromEntity(address);
-		Company compan = companyservice.finByIdUser(usuario);
-		CompanyDTO compDTO = Companyconverter.fromEntity(compan);
-		respuestafinal.setRole(articulosDTO);
-		respuestafinal.setUsuario(userdto);
-		respuestafinal.setToken(authResponse.getToken());
-		respuestafinal.setPhone(phoneDto);
-		respuestafinal.setAddres(adresDTO);
-		respuestafinal.setEmpresa(compDTO);
-		return new WrapperResponse<>(true, "success", respuestafinal).createResponse(HttpStatus.OK);
+			ResponseEmailDto mensaje = authService.generarOtpPhone(request.getPhoneNumber());
+			return new WrapperResponse<>(true, "success", mensaje).createResponse(HttpStatus.OK);
+
 		} catch (ValidateServiceException e) {
 			throw new GeneralServiceException(e.getMessage(), e);
 		} catch (NoDataFoundException e) {
@@ -162,6 +150,41 @@ public class UsuarioController {
 		} catch (Exception e) {
 			throw new GeneralServiceException(e.getMessage(), e);
 		}
-		
+	}
+
+	@PostMapping(value = "/login")
+	public ResponseEntity<WrapperResponse<IngresosResponse>> login(@RequestBody LoginRequest request) {
+		try {
+			AuthResponse authResponse = authService.login(request);
+			IngresosResponse respuestafinal = new IngresosResponse();
+			UsuarioDTO userdto = converter.fromEntity(authResponse.getUsuario());
+			Role role = serviceRole.findById(authResponse.getUsuario().getRole().getId());
+			RolDTO articulosDTO = roleconverter.fromEntity(role);
+			Person per = ser.findByidUser(authResponse.getUsuario());
+			PesonDTO perdto = conPersona.fromEntity(per);
+			respuestafinal.setPersona(perdto);
+			User usuario = new User();
+			usuario.setId(authResponse.getUsuario().getId());
+			Phone phone = servicePhone.finByIdUser(usuario);
+			PhoneDTO phoneDto = Phoneconverter.fromEntity(phone);
+			Address address = serviceAdress.finByIdUser(usuario);
+			AddressDTO adresDTO = Adressconverter.fromEntity(address);
+			Company compan = companyservice.finByIdUser(usuario);
+			CompanyDTO compDTO = Companyconverter.fromEntity(compan);
+			respuestafinal.setRole(articulosDTO);
+			respuestafinal.setUsuario(userdto);
+			respuestafinal.setToken(authResponse.getToken());
+			respuestafinal.setPhone(phoneDto);
+			respuestafinal.setAddres(adresDTO);
+			respuestafinal.setEmpresa(compDTO);
+			return new WrapperResponse<>(true, "success", respuestafinal).createResponse(HttpStatus.OK);
+		} catch (ValidateServiceException e) {
+			throw new GeneralServiceException(e.getMessage(), e);
+		} catch (NoDataFoundException e) {
+			throw new GeneralServiceException(e.getMessage(), e);
+		} catch (Exception e) {
+			throw new GeneralServiceException(e.getMessage(), e);
 		}
+
+	}
 }

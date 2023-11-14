@@ -10,6 +10,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MailOTPdto {
-	 String mail;
+	 String email;
 	 String otp;
 }

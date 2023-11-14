@@ -10,5 +10,6 @@ import comciudad.dona.entity.User;
 @Repository
 public interface UserRepository extends JpaRepository<User,UUID> {
     Optional<User> findByUsername(String username); 
-
+    
+    
 }
