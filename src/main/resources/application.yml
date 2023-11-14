@@ -17,6 +17,14 @@ spring:
       ddl-auto: update
       properties:
         hibernate.dialect: org.hibernate.dialect.MySQL8Dialect
+  main:
+     allow-circular-references: true
+  thymeleaf:
+    enabled: true
+    prefix: classpath:/templates/
+    suffix: .html
+    encoding: UTF-8
+
   servlet:
     multipart:
       max-file-size: 10MB
