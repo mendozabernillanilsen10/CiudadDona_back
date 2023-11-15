@@ -8,21 +8,16 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import comciudad.dona.dtos.AuthResponse;
 import comciudad.dona.dtos.LoginRequest;
 import comciudad.dona.dtos.RegisterRequest;
 import comciudad.dona.dtos.ResponseEmailDto;
 import comciudad.dona.dtos.responseMailToken;
-import comciudad.dona.dtos.responsePhoneToken;
 import comciudad.dona.entity.Phone;
 import comciudad.dona.entity.User;
 import comciudad.dona.exceptions.GeneralServiceException;
@@ -32,11 +27,13 @@ import comciudad.dona.repository.PhoneRepository;
 import comciudad.dona.repository.UserRepository;
 import comciudad.dona.security.JwtService;
 import comciudad.dona.service.impl.TwilioSmsService;
+import comciudad.dona.utils.EmailUtil;
+import comciudad.dona.utils.OtpUtil;
+import comciudad.dona.utils.RolesAcces;
 import comciudad.dona.validadors.UsuarioValidator;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import comciudad.dona.utils.*;
 
 @Service
 @RequiredArgsConstructor
@@ -154,13 +151,11 @@ public class AuthService {
 	    
 	public responseMailToken verifyAccount(String username, String otp) {
 		responseMailToken ms = new responseMailToken();
-		User user = userRepository.findByUsername(username)
+	
+		try {
+				User user = userRepository.findByUsername(username)
 				.orElseThrow(() -> new RuntimeException("usuario No se encontrado con :" + username));
 		
-		try {
-			ResponseEmailDto men;
-			
-			
 			if (user.getOtp().equals(otp)
 					&& Duration.between(user.getOtpGeneratedTime(), LocalDateTime.now()).getSeconds() < (3 * 60)) {
 				ms.setMensaje("verificado");

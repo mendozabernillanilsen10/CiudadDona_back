@@ -1,13 +1,12 @@
 package comciudad.dona.controllers;
 
-import java.util.Date;
-import java.util.List; 
+
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -25,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import comciudad.dona.converters.AddressConverters;
-import comciudad.dona.converters.IngresosResponse;
 import comciudad.dona.converters.PersonaConverters;
 import comciudad.dona.converters.PhoneConverters;
 import comciudad.dona.converters.ResponsibleConverters;
@@ -36,7 +34,6 @@ import comciudad.dona.converters.companyConverters;
 import comciudad.dona.dtos.AddressDTO;
 import comciudad.dona.dtos.AuthResponse;
 import comciudad.dona.dtos.CompanyDTO;
-import comciudad.dona.dtos.PesonDTO;
 import comciudad.dona.dtos.PhoneDTO;
 import comciudad.dona.dtos.RegisterCompany;
 import comciudad.dona.dtos.RegisterRequest;
@@ -45,7 +42,6 @@ import comciudad.dona.dtos.RolDTO;
 import comciudad.dona.dtos.UsuarioDTO;
 import comciudad.dona.entity.Address;
 import comciudad.dona.entity.Company;
-import comciudad.dona.entity.Person;
 import comciudad.dona.entity.Phone;
 import comciudad.dona.entity.Responsible;
 import comciudad.dona.entity.Role;
@@ -54,7 +50,6 @@ import comciudad.dona.entity.ubdistrito;
 import comciudad.dona.service.AddressService;
 import comciudad.dona.service.AuthService;
 import comciudad.dona.service.DistritoService;
-import comciudad.dona.service.PersonService;
 import comciudad.dona.service.PhoneService;
 import comciudad.dona.service.ResponsiService;
 import comciudad.dona.service.RolService;

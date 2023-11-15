@@ -28,7 +28,6 @@ spring:
     prefix: classpath:/templates/
     suffix: .html
     encoding: UTF-8
-
   servlet:
     multipart:
       max-file-size: 10MB
@@ -38,7 +37,7 @@ spring:
     host: smtp.gmail.com
     port: 587
     username: dona78073@gmail.com
-    password: myxinyinvowcrdba  
+    password: myxinyinvowcrdba 
 logging:
   level:
     root: WARN

@@ -1,16 +1,5 @@
 package comciudad.dona.controllers;
 
-import comciudad.dona.converters.categoriaConverters;
-import comciudad.dona.dtos.CategoriaDTO;
-import comciudad.dona.entity.Category;
-import comciudad.dona.exceptions.GeneralServiceException;
-import comciudad.dona.exceptions.NoDataFoundException;
-import comciudad.dona.exceptions.ValidateServiceException;
-import comciudad.dona.service.categoriaService;
-import comciudad.dona.utils.WrapperResponse;
-import jakarta.persistence.criteria.Path;
-import lombok.extern.slf4j.Slf4j;
-
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +24,16 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
-import org.springframework.data.domain.Pageable;
+import comciudad.dona.converters.categoriaConverters;
+import comciudad.dona.dtos.CategoriaDTO;
+import comciudad.dona.entity.Category;
+import comciudad.dona.exceptions.GeneralServiceException;
+import comciudad.dona.exceptions.NoDataFoundException;
+import comciudad.dona.exceptions.ValidateServiceException;
+import comciudad.dona.service.categoriaService;
+import comciudad.dona.service.fileService;
+import comciudad.dona.utils.WrapperResponse;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
@@ -42,6 +41,9 @@ import org.springframework.data.domain.Pageable;
 public class categoriaControllers {
 	@Autowired
 	private categoriaService service;
+	@Autowired
+	private fileService servicefile;
+	
 	private categoriaConverters converter = new categoriaConverters();
 	@Value("${spring.servlet.multipart.location}")
 	private String uploadPath;
@@ -69,30 +71,12 @@ public class categoriaControllers {
 
 	@GetMapping(value = "download")
 	public ResponseEntity<Resource> serveFile(@RequestParam(value = "filename") String filename) {
-		// Concatenar la carpeta específica a la ruta base
 		String filePath = Paths.get(uploadPath, "categorias", filename).toString();
-
-		Resource file = (Resource) service.loadAsResource(filePath);
-
+		Resource file = (Resource) servicefile.loadAsResource(filePath);
 		return ResponseEntity.ok()
 				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
 				.body(file);
 	}
-
-	/*
-	 * 
-	 * @GetMapping public ResponseEntity<List<CategoriaDTO>> SfindAll(
-	 * 
-	 * @RequestParam(value = "offset", required = false, defaultValue = "0") int
-	 * pageNumber,
-	 * 
-	 * @RequestParam(value = "limit", required = false, defaultValue = "5") int
-	 * pageSize ){ Pageable page = PageRequest.of(pageNumber, pageSize);
-	 * List<categoria> articulos = service.findAll(page); List<CategoriaDTO>
-	 * articulosDTO =converter.fromEntity(articulos); return new
-	 * WrapperResponse(true, "success", articulosDTO).createResponse(HttpStatus.OK);
-	 * }
-	 */
 
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<WrapperResponse<CategoriaDTO>> findById(@PathVariable("id") UUID id) {
@@ -145,32 +129,7 @@ public class categoriaControllers {
 		}
 	}
 
-	/*
-	 * @PutMapping(value = "/{id}") public ResponseEntity<CategoriaDTO>
-	 * update(@PathVariable("id") int id,
-	 * 
-	 * @RequestParam("nombre") String nombre,
-	 * 
-	 * @RequestParam("foto") MultipartFile foto) { try { categoria categoria =
-	 * service.findById(id); categoria.setNombre(nombre); categoria
-	 * categoriaGuardada = service.save(categoria, foto); CategoriaDTO
-	 * categoriaGuardadaDTO = converter.fromEntity(categoriaGuardada); return new
-	 * WrapperResponse(true, "success",
-	 * categoriaGuardadaDTO).createResponse(HttpStatus.CREATED);
-	 * 
-	 * 
-	 * } catch (NoDataFoundException e) { // Aquí puedes manejar la excepción
-	 * específica log.info(e.getMessage(), e); return new WrapperResponse(true,
-	 * "success", null).createResponse(HttpStatus.CREATED);
-	 * 
-	 * } catch (ValidateServiceException e) { log.info(e.getMessage(), e); return
-	 * new WrapperResponse(true, "success",
-	 * null).createResponse(HttpStatus.CREATED);
-	 * 
-	 * } catch (GeneralServiceException e) { log.error(e.getMessage(), e); return
-	 * new WrapperResponse(true, "success",
-	 * null).createResponse(HttpStatus.CREATED); } }
-	 */
+
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<?> delete(@PathVariable("id") UUID id) {
 		service.delete(id);

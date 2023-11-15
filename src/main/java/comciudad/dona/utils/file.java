@@ -1,40 +1,60 @@
 package comciudad.dona.utils;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.util.UUID;
 
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.stereotype.Service;
+import comciudad.dona.service.fileService;
+@Service
+public class file implements fileService {
 
-public class file {
-    private static final String UPLOAD_DIR = "src//main//resources//static//imagenes";
+	@Value("${spring.servlet.multipart.location}")
+	 private String uploadPath;
+	@Override
+	public void init() {
+		try {
+			Files.createDirectories(Paths.get(uploadPath));
+		} catch (IOException e) {
+			throw new RuntimeException("¡No se pudo crear la carpeta de carga!");
+		}
+	}
+	@Override
+	public Path load(String filename) {
+		   return Paths.get(uploadPath).resolve(filename);
+	}
+   @Override
+   public Resource loadAsResource(String filename) {
+	   try {
+		   Path file = load(filename);
+		   Resource resource = new UrlResource(file.toUri());
+		   
+		   
+		   if (resource.exists() || resource.isReadable()) {
+			   return resource;
+		   } else {
+			   throw new RuntimeException("No se pudo leer el archivo: " + filename);
+		   }
+	   } catch (MalformedURLException e) {
+		   throw new RuntimeException("No se pudo leer el archivo: " + filename, e);
+	   }
+   }
+    @Override
+	public void deleteFoto(String fotoUrl) {
+		if (fotoUrl != null) {
+			Path filePath = Paths.get(uploadPath, fotoUrl);
+			try {
+				Files.deleteIfExists(filePath);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 
-	 // Método para guardar la foto en el servidor y retornar la URL de la foto guardada
-	    public String saveFoto(MultipartFile foto) {
-	        try {
-	            String fileName = UUID.randomUUID().toString() + "_" + foto.getOriginalFilename();
-	            Path filePath = Paths.get(UPLOAD_DIR, fileName);
-	            Files.copy(foto.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-	            return fileName;
-	            
-	        } catch (IOException e) {
-	            e.printStackTrace();
-	            return null;
-	        }
-	    }
-	    // Método para eliminar la foto del servidor
-	    public void deleteFoto(String fotoUrl) {
-	        if (fotoUrl != null) {
-	            Path filePath = Paths.get(UPLOAD_DIR, fotoUrl);
-	            try {
-	                Files.deleteIfExists(filePath);
-	            } catch (IOException e) {
-	                e.printStackTrace();
-	            }
-	        }
-	    }
-	    
+
 }
