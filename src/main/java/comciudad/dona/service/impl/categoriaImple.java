@@ -78,11 +78,13 @@ public class categoriaImple implements categoriaService {
 						try (InputStream inputStream = file.getInputStream()) {
 							Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
 						}
+						existingRecord.setId(com.getId());
 						existingRecord.setFoto_url(previousPhotoUrl);
 						existingRecord.setName(com.getName());
 						categoriaValidador.save(existingRecord);
 						newRecord = repository.save(existingRecord);
 					} else {
+						existingRecord.setId(com.getId());
 						String categoryFolder = "categorias";
 						String fileName = x.generate(8) + ".png";
 						Path folderPath = Paths.get(uploadPath, categoryFolder);

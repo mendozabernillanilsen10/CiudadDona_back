@@ -13,5 +13,6 @@ import lombok.Setter;
 public class paisDTO {
 		private int id;
 		private String nombre ;
+		private String foto_url; 
 
 }

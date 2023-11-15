@@ -14,4 +14,5 @@ import lombok.Setter;
 public class DistritoDto {
 	private Long id;
     private String nombre;
+    private String foto_url;
 }

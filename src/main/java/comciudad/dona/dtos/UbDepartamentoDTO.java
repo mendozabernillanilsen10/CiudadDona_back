@@ -15,4 +15,5 @@ public class UbDepartamentoDTO {
 	private Long id;
     private String nombre;
 
+
 }

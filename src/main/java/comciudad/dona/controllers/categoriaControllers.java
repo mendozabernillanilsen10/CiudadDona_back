@@ -47,13 +47,13 @@ public class categoriaControllers {
 	private categoriaConverters converter = new categoriaConverters();
 	@Value("${spring.servlet.multipart.location}")
 	private String uploadPath;
-      
 	@GetMapping
 	public ResponseEntity<List<CategoriaDTO>> findAll(
 			@RequestParam(value = "offset", required = false, defaultValue = "0") int pageNumber,
 			@RequestParam(value = "limit", required = false, defaultValue = "5") int pageSize) {
 		Pageable page = PageRequest.of(pageNumber, pageSize);
 		List<Category> cats = service.findAll(page);
+		
 		List<CategoriaDTO> dtos = new ArrayList<>();
 		for (Category c : cats) {
 			CategoriaDTO dto = new CategoriaDTO();
@@ -66,7 +66,6 @@ public class categoriaControllers {
 			dtos.add(dto);
 		}
 		return new WrapperResponse(true, "success", dtos).createResponse(HttpStatus.OK);
-
 	}
 
 	@GetMapping(value = "download")
@@ -87,7 +86,8 @@ public class categoriaControllers {
 	}
 
 	@PostMapping
-	public ResponseEntity<CategoriaDTO> create(@RequestParam("nombre") String nombre,
+	public ResponseEntity<CategoriaDTO> create(
+			@RequestParam("nombre") String nombre,
 			@RequestParam("foto") MultipartFile foto) {
 		try {
 			Category categoria = new Category();
@@ -106,7 +106,9 @@ public class categoriaControllers {
 	}
 
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<CategoriaDTO> update(@PathVariable("id") UUID id, @RequestParam("nombre") String nombre,
+	public ResponseEntity<CategoriaDTO> update(
+			@PathVariable("id") UUID id,
+			@RequestParam("nombre") String nombre,
 			@RequestParam("foto") MultipartFile foto) {
 		try {
 			Category categoria = new Category();

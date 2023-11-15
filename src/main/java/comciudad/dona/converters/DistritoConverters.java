@@ -10,6 +10,7 @@ public class DistritoConverters extends AbstractConverter<ubdistrito,DistritoDto
 		return DistritoDto.builder()
 				.id(entity.getId())
 				.nombre(entity.getNombre())
+				.foto_url(entity.getFotoUrl())
 				.build();
 	}
 
@@ -19,6 +20,7 @@ public class DistritoConverters extends AbstractConverter<ubdistrito,DistritoDto
 		ubdistrito p=new ubdistrito();
 		p.setId(dto.getId());
 		p.setNombre(dto.getNombre());
+		p.setFotoUrl(dto.getFoto_url());
 		return p;
 	}
 
