@@ -1,6 +1,6 @@
 package comciudad.dona.controllers;
-
-import java.util.List;
+ 
+import java.util.List; 
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,16 +10,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import comciudad.dona.converters.DepartementoConverters;
 import comciudad.dona.converters.provinciaConverters;
 import comciudad.dona.dtos.UbDepartamentoDTO;
 import comciudad.dona.dtos.provinciaDTO;
-import comciudad.dona.entity.Pais;
 import comciudad.dona.entity.ubdepartamento;
 import comciudad.dona.entity.ubprovincia;
-import comciudad.dona.service.UbDepartamentoService;
 import comciudad.dona.service.provinciaService;
 import comciudad.dona.utils.WrapperResponse;
+@SuppressWarnings({ "rawtypes", "unchecked" })
 @RestController
 @RequestMapping("/v1/provincia")
 public class provinciaControllers {

@@ -31,9 +31,12 @@ dependencies {
   runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.2")
   runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.2")
   implementation 'org.springframework.boot:spring-boot-starter-mail'
-  implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
   implementation group: 'com.twilio.sdk', name: 'twilio', version: '9.9.1'
-  
+	// https://mvnrepository.com/artifact/org.springframework/spring-webflux
+  implementation group: 'org.springframework', name: 'spring-webflux', version: '6.0.13'	 
+	// https://mvnrepository.com/artifact/org.imgscalr/imgscalr-lib
+  implementation group: 'org.imgscalr', name: 'imgscalr-lib', version: '4.2'
+	
 }
 
 tasks.named('test') {

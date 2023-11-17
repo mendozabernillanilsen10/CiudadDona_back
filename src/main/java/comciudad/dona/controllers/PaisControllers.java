@@ -22,7 +22,7 @@ import comciudad.dona.dtos.paisDTO;
 import comciudad.dona.entity.Pais;
 import comciudad.dona.service.PaisService;
 import comciudad.dona.utils.WrapperResponse;
-
+@SuppressWarnings({ "rawtypes", "unchecked" })
 @RestController
 @RequestMapping("/v1/pais")
 public class PaisControllers {

@@ -1,99 +1,72 @@
 package comciudad.dona.service.impl;
-import java.io.IOException; 
+
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.List;  
+import java.util.List;
 import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import comciudad.dona.entity.Category;
+import comciudad.dona.entity.Store;
 import comciudad.dona.entity.Subcategory;
 import comciudad.dona.exceptions.GeneralServiceException;
 import comciudad.dona.exceptions.NoDataFoundException;
 import comciudad.dona.exceptions.ValidateServiceException;
-import comciudad.dona.service.SubCategoriaService;
+import comciudad.dona.repository.StoreRepository;
+import comciudad.dona.service.StoreService;
 import comciudad.dona.service.fileService;
 import comciudad.dona.utils.RandomStringGenerator;
 import comciudad.dona.utils.Rutas;
 import lombok.extern.slf4j.Slf4j;
-import comciudad.dona.repository.SubCategoriaRepository;
 @Service
 @Slf4j
-public class SubCategoriaServiceImplem  implements SubCategoriaService{
+public class StoreServiceImplements  implements StoreService {
 	@Autowired
-	SubCategoriaRepository repository;
-
+	StoreRepository repository;
 	@Value("${spring.servlet.multipart.location}")
 	private String uploadPath;
 	@Autowired
 	private fileService servicefile;
 	RandomStringGenerator x = new RandomStringGenerator();
-	String otp = x.generate(6);
-
-	public void deleteFoto(String fotoUrl) {
-		if (fotoUrl != null) {
-
-			Path filePath = Paths.get(uploadPath, Rutas.IMG_SUB_CATEGORIA, fotoUrl);
-			try {
-				Files.deleteIfExists(filePath);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-	}
 	
 	@Override
-	public List<Subcategory> findAll() {
-		try {
-			 List<Subcategory> compani = repository.findAll(); 
-	  	      return compani;
-		}catch(ValidateServiceException | NoDataFoundException e) {
-			log.info(e.getMessage(), e);
-			throw e;
-		}catch(Exception e) {
-			log.error(e.getMessage());
-			throw new GeneralServiceException(e.getMessage(), e);
-		}
+	public List<Store> findAll(Pageable page) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	@Override
-	public Subcategory findById(UUID id) {
-		try {
-			Subcategory existeRegistro= repository.findById(id)
-					.orElseThrow(()->new NoDataFoundException("No Existe el Registro ")); 
-			return existeRegistro;
-		}catch(ValidateServiceException | NoDataFoundException e) {
-			log.info(e.getMessage(), e);
-			throw e;
-		}catch(Exception e) {
-			log.error(e.getMessage());
-			
-			throw new GeneralServiceException(e.getMessage(), e);
-		}
+	public Store findById(UUID id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	public Store savesave(Store estore, MultipartFile foto) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	@Override
-	public Subcategory save(Subcategory com, MultipartFile file) {
+	public Store save(Store com, MultipartFile file) {
 		try {
 			if (file.isEmpty()) {
 				throw new Exception("ERROR: no se pudo crear la carpeta ");
 			}
-			Subcategory existingRecord = new Subcategory();
-			Subcategory newRecord = new Subcategory();
+			Store existingRecord = new Store();
+			Store newRecord = new Store();
 			if (file != null && !file.isEmpty()) {
-
 				if (com.getId() != null) {
 					existingRecord = repository.findById(com.getId())
 							.orElseThrow(() -> new NoDataFoundException("No Existe el Registro"));
 					String previousPhotoUrl = existingRecord.getFoto_url();
-
 					if (previousPhotoUrl != null) {
-						deleteFoto(previousPhotoUrl);
-						String categoryFolder = Rutas.IMG_SUB_CATEGORIA;
+						servicefile.deleteFoto(previousPhotoUrl);
+						String categoryFolder = Rutas.IMG_STORE;
 						Path folderPath = Paths.get(uploadPath, categoryFolder);
 						Path filePath = folderPath.resolve(previousPhotoUrl);
 						if (!Files.exists(folderPath)) {
@@ -102,17 +75,20 @@ public class SubCategoriaServiceImplem  implements SubCategoriaService{
 						try (InputStream inputStream = file.getInputStream()) {
 							Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
 						}
+						
+						existingRecord.setIdDistrito(com.getIdDistrito());
+						existingRecord.setName(com.getName());
 						existingRecord.setId(com.getId());
 						existingRecord.setFoto_url(previousPhotoUrl);
-						existingRecord.setName(com.getName());
-						existingRecord.setIdcategory(com.getIdcategory());
-						
+						existingRecord.setActivo(true);
+						existingRecord.setCategory(com.getCategory());
+						existingRecord.setCompany(com.getCompany());
+						existingRecord.setSubcategory(com.getSubcategory());
 						newRecord = repository.save(existingRecord);
 					} else {
 						existingRecord.setId(com.getId());
-						String categoryFolder = Rutas.IMG_SUB_CATEGORIA;
+						String categoryFolder = Rutas.IMG_STORE;
 						String fileName = x.generate(8) + ".png";
-						
 						Path folderPath = Paths.get(uploadPath, categoryFolder);
 						Path filePath = folderPath.resolve(fileName);
 						if (!Files.exists(folderPath)) {
@@ -121,14 +97,18 @@ public class SubCategoriaServiceImplem  implements SubCategoriaService{
 						try (InputStream inputStream = file.getInputStream()) {
 							Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
 						}
-						existingRecord.setIdcategory(com.getIdcategory());
+						existingRecord.setIdDistrito(com.getIdDistrito());
 
 						existingRecord.setFoto_url(fileName);
+						existingRecord.setActivo(true);
+						existingRecord.setCategory(com.getCategory());
+						existingRecord.setCompany(com.getCompany());
+						existingRecord.setSubcategory(com.getSubcategory());
 						existingRecord.setName(com.getName());
 						newRecord = repository.save(existingRecord);
 					}
 				} else {
-					String categoryFolder = Rutas.IMG_SUB_CATEGORIA;
+					String categoryFolder = Rutas.IMG_STORE;
 					String fileName = x.generate(8) + ".png";
 					Path folderPath = Paths.get(uploadPath, categoryFolder);
 					Path filePath = folderPath.resolve(fileName);
@@ -138,10 +118,17 @@ public class SubCategoriaServiceImplem  implements SubCategoriaService{
 					try (InputStream inputStream = file.getInputStream()) {
 						Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
 					}
-					existingRecord.setFoto_url(fileName);
-					existingRecord.setIdcategory(com.getIdcategory());
-
+					
+					
 					existingRecord.setName(com.getName());
+					existingRecord.setFoto_url(fileName);
+					existingRecord.setActivo(true);
+					existingRecord.setCategory(com.getCategory());
+					existingRecord.setCompany(com.getCompany());
+					existingRecord.setSubcategory(com.getSubcategory());
+					existingRecord.setIdDistrito(com.getIdDistrito());
+					
+					
 					newRecord = repository.save(existingRecord);
 				}
 			}
@@ -153,37 +140,22 @@ public class SubCategoriaServiceImplem  implements SubCategoriaService{
 			log.error(e.getMessage());
 			throw new GeneralServiceException(e.getMessage(), e);
 		}
+
 	}
+
 	@Override
 	public void delete(UUID id) {
-		try {
-			Subcategory existeRegistro= repository.findById(id)
-					.orElseThrow(()->new NoDataFoundException("No Existe el Registro"));
+		// TODO Auto-generated method stub
 		
-		   repository.delete(existeRegistro);
-		} catch (ValidateServiceException | NoDataFoundException e) {
-			log.info(e.getMessage(), e);
-			throw e;
-		} catch (Exception e) {
-			log.error(e.getMessage());
-			throw new GeneralServiceException(e.getMessage(), e);
-		}
 	}
 	@Override
-	public Subcategory finByCategory(Category categoria) {
-
-		try {
-			Subcategory articulo= repository.findByidcategory(categoria);
-		
-			return articulo;
-		}catch(ValidateServiceException | NoDataFoundException e) {
-			log.info(e.getMessage(), e);
-			throw e;
-		}catch(Exception e) {
-			log.error(e.getMessage());
-			throw new GeneralServiceException(e.getMessage(), e);
-		}
-
+	public Store listarCategorias(Category categoria) {
+		// TODO Auto-generated method stub
+		return null;
 	}
-
+	@Override
+	public Store listarSubCategorias(Subcategory subcategoria) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

@@ -1,5 +1,5 @@
 package comciudad.dona.controllers;
-import java.util.List;
+import java.util.List;   
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -35,6 +35,7 @@ public class AdressControllers {
 	DistritoService distritoService ;
 	DistritoConverters converD = new DistritoConverters();
 	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@GetMapping
 	public ResponseEntity<List<AddressDTO>> findAll(
 			@RequestParam(value = "offset", required = false, defaultValue = "0") int pageNumber,
@@ -46,24 +47,5 @@ public class AdressControllers {
 		return new WrapperResponse(true, "success", articulosDTO).createResponse(HttpStatus.OK);		
 
 	}
-	/*
-	@PostMapping(value = "/registers")
-	public ResponseEntity<AddressDTO> create(
-		@RequestParam("IdPersona") UUID  idPersona,
-	    @RequestParam("Reference") String Reference,
-	    @RequestParam("street") String street,
-	    @RequestParam("IdDistrito") Long IdDistrito
-	) {       
-		ubdistrito  dis = distritoService.findById(IdDistrito);
-	    Person person = ser.findById(idPersona);
-	    Address adress = new Address();
-	    adress.setStreet(street);
-	    adress.setReference(Reference);
-	    adress.setUbdistrito_Id(dis);
-	    adress.setPerson(person);  // Asocia el teléfono con la persona obtenida.
-	    Address newPhone = service.save(adress);
-	    AddressDTO phoneDTO = converter.fromEntity(newPhone);
-	    
-	    return new WrapperResponse(true, "Éxito", phoneDTO).createResponse(HttpStatus.CREATED);
-	}*/	
+		
 }

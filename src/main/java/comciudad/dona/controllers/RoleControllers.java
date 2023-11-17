@@ -1,6 +1,6 @@
 package comciudad.dona.controllers;
 
-import java.util.List; 
+import java.util.List;  
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +9,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,12 +16,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import comciudad.dona.converters.RolCoverters;
-import comciudad.dona.dtos.CompanyDTO;
 import comciudad.dona.dtos.RolDTO;
-import comciudad.dona.entity.Company;
 import comciudad.dona.entity.Role;
 import comciudad.dona.service.RolService;
 import comciudad.dona.utils.WrapperResponse;
+@SuppressWarnings({ "rawtypes", "unchecked" })
 @RestController
 @RequestMapping("/v1/Role")
 public class RoleControllers {

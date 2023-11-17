@@ -38,6 +38,7 @@ import lombok.Setter;
 @Entity
 @Table(name="user", uniqueConstraints = {@UniqueConstraint(columnNames = {"username"})})
 public class User  implements UserDetails  {
+	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue
 	@Column(length=16)
@@ -56,9 +57,6 @@ public class User  implements UserDetails  {
     
 	private String otp;
 	private LocalDateTime otpGeneratedTime;
-	
-	
-	
 	
 	@Enumerated(EnumType.STRING) 
 	RolesAcces roles;

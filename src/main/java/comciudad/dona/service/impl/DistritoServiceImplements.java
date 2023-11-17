@@ -24,6 +24,7 @@ import comciudad.dona.repository.DistritoRepository;
 import comciudad.dona.service.DistritoService;
 import comciudad.dona.service.fileService;
 import comciudad.dona.utils.RandomStringGenerator;
+import comciudad.dona.utils.Rutas;
 import comciudad.dona.validadors.DistritoValid;
 import lombok.extern.slf4j.Slf4j;
 
@@ -86,7 +87,7 @@ public class DistritoServiceImplements implements DistritoService {
 	public void deleteFoto(String fotoUrl) {
 		if (fotoUrl != null) {
 
-			Path filePath = Paths.get(uploadPath, "Img_distrito", fotoUrl);
+			Path filePath = Paths.get(uploadPath, Rutas.IMG_DISTRITO, fotoUrl);
 			try {
 				Files.deleteIfExists(filePath);
 			} catch (IOException e) {
@@ -121,7 +122,7 @@ public class DistritoServiceImplements implements DistritoService {
 	                    deleteFoto(previousPhotoUrl);
 	                }
 
-	                String categoryFolder = "Img_distrito";
+	                String categoryFolder = Rutas.IMG_DISTRITO;
 	                String fileName = x.generate(16) + ".png";
 	                Path folderPath = Paths.get(uploadPath, categoryFolder);
 	                Path filePath = folderPath.resolve(fileName);
@@ -141,7 +142,7 @@ public class DistritoServiceImplements implements DistritoService {
 	                existingRecord.setFotoUrl(fileName);
 	                newRecord = repository.save(existingRecord);
 	            } else {
-	                String categoryFolder = "Img_distrito";
+	                String categoryFolder = Rutas.IMG_DISTRITO;
 	                String fileName = x.generate(16) + ".png";
 	                Path folderPath = Paths.get(uploadPath, categoryFolder);
 	                Path filePath = folderPath.resolve(fileName);

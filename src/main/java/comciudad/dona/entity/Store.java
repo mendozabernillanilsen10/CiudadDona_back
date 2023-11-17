@@ -1,6 +1,6 @@
 package comciudad.dona.entity;
 
-import java.util.Date;
+import java.util.Date; 
 import java.util.UUID;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -36,22 +36,33 @@ public class Store {
 	@GeneratedValue
 	@Column(length = 16)
 	private UUID id;
-	// @Column(name = "name", nullable = false)
-	// private String name;
-	// @Column(name="price", nullable = false,precision=6,scale=2)
-	// private BigDecimal price;
+	
+	@Column(name="name",nullable=false,length=300)
+	private String name ;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idcategory")
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	private Category category;
-	@Column(name = "Description")
-	private String Description;
 	@ManyToOne(fetch = FetchType.LAZY)
+	
 	@JoinColumn(name = "idsubcategory")
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	private Subcategory subcategory;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idCompany")
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	private Company company;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idDistrito")
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	private ubdistrito idDistrito;
+	
 	@Column(name = "fotoUrl")
 	private String foto_url;
+	
+	
 	@Column(name = "created_at", nullable = false, updatable = false)
 	@Temporal(TemporalType.TIMESTAMP)
 	@CreatedDate

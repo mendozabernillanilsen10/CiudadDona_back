@@ -19,7 +19,7 @@ import comciudad.dona.repository.personRepository;
 import comciudad.dona.service.PersonService;
 import comciudad.dona.service.PhoneService;
 import comciudad.dona.utils.WrapperResponse;
-
+@SuppressWarnings({ "rawtypes", "unchecked" })
 @RestController
 @RequestMapping("/v1/Phone")
 public class PhoneControllers {

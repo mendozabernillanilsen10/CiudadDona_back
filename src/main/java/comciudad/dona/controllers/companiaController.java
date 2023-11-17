@@ -181,7 +181,7 @@ public class companiaController {
 		        return new ResponseEntity<>(new WrapperResponse<>(false, errorMessage, null), HttpStatus.INTERNAL_SERVER_ERROR);
 		    } 
     }
-    
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@GetMapping
 	public ResponseEntity<List<CompanyDTO>> findAll(
 			@RequestParam(value = "offset", required = false, defaultValue = "0") int pageNumber,
@@ -193,19 +193,23 @@ public class companiaController {
 		List<CompanyDTO> articulosDTO =converter.fromEntity(articulos);
 		return new WrapperResponse(true, "success", articulosDTO).createResponse(HttpStatus.OK);		
 	}
+	
+	
+	
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<WrapperResponse<CompanyDTO>> findById(@PathVariable("id") UUID id) {
 		Company compani = service.findById(id);
 		CompanyDTO compDTO=converter.fromEntity(compani);
 		return new WrapperResponse<CompanyDTO>(true,"succes",compDTO).createResponse(HttpStatus.OK);
 	}
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@PostMapping()
 	public ResponseEntity<CompanyDTO> create(@RequestBody CompanyDTO articuloDTO) {		
 		Company compani = service.save(converter.fromDTO(articuloDTO));
 		CompanyDTO compDTO=converter.fromEntity(compani);
 		return new WrapperResponse(true, "success", compDTO).createResponse(HttpStatus.CREATED);
 	}
-
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<CompanyDTO> update(@PathVariable("id") Long id,@RequestBody CompanyDTO ingreso) {
 		Company updateIngreso = service.save(converter.fromDTO(ingreso));
@@ -215,7 +219,7 @@ public class companiaController {
 		CompanyDTO ingresoReturn=converter.fromEntity(updateIngreso);
 		return new WrapperResponse(true, "success", ingresoReturn).createResponse(HttpStatus.OK);
 	}
-	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<?> delete(@PathVariable("id") UUID id) {
 		service.delete(id);

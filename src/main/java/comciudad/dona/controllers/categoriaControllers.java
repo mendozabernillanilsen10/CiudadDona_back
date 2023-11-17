@@ -32,21 +32,26 @@ import comciudad.dona.exceptions.NoDataFoundException;
 import comciudad.dona.exceptions.ValidateServiceException;
 import comciudad.dona.service.categoriaService;
 import comciudad.dona.service.fileService;
+import comciudad.dona.utils.Rutas;
 import comciudad.dona.utils.WrapperResponse;
 import lombok.extern.slf4j.Slf4j;
-
+@SuppressWarnings({ "rawtypes", "unchecked" })
 @Slf4j
 @RestController
 @RequestMapping("/v1/categorias")
 public class categoriaControllers {
 	@Autowired
 	private categoriaService service;
+	
+	
+	
 	@Autowired
 	private fileService servicefile;
 	
 	private categoriaConverters converter = new categoriaConverters();
 	@Value("${spring.servlet.multipart.location}")
 	private String uploadPath;
+	
 	@GetMapping
 	public ResponseEntity<List<CategoriaDTO>> findAll(
 			@RequestParam(value = "offset", required = false, defaultValue = "0") int pageNumber,
@@ -70,13 +75,15 @@ public class categoriaControllers {
 
 	@GetMapping(value = "download")
 	public ResponseEntity<Resource> serveFile(@RequestParam(value = "filename") String filename) {
-		String filePath = Paths.get(uploadPath, "categorias", filename).toString();
+		String filePath = Paths.get(uploadPath, Rutas.IMG_CATEGORIA, filename).toString();
 		Resource file = (Resource) servicefile.loadAsResource(filePath);
 		return ResponseEntity.ok()
 				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
 				.body(file);
 	}
 
+	
+	
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<WrapperResponse<CategoriaDTO>> findById(@PathVariable("id") UUID id) {
 		Category compani = service.findById(id);
@@ -84,7 +91,6 @@ public class categoriaControllers {
 		return new WrapperResponse<CategoriaDTO>(true, "succes", compDTO).createResponse(HttpStatus.OK);
 
 	}
-
 	@PostMapping
 	public ResponseEntity<CategoriaDTO> create(
 			@RequestParam("nombre") String nombre,
@@ -104,7 +110,9 @@ public class categoriaControllers {
 		}
 
 	}
-
+	
+	
+	
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<CategoriaDTO> update(
 			@PathVariable("id") UUID id,
@@ -130,7 +138,6 @@ public class categoriaControllers {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-
 
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<?> delete(@PathVariable("id") UUID id) {

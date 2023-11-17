@@ -1,9 +1,8 @@
 package comciudad.dona.converters;
-import org.springframework.stereotype.Component; 
+import org.springframework.stereotype.Component;  
 
 import comciudad.dona.dtos.CompanyDTO;
 import comciudad.dona.entity.Company;
-import comciudad.dona.entity.Person; 
 
 @Component
 public class companyConverters 

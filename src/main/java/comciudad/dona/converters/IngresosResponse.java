@@ -1,9 +1,8 @@
 package comciudad.dona.converters;
-import comciudad.dona.dtos.AddressDTO;
+import comciudad.dona.dtos.AddressDTO; 
 import comciudad.dona.dtos.CompanyDTO;
 import comciudad.dona.dtos.PesonDTO;
 import comciudad.dona.dtos.PhoneDTO;
-import comciudad.dona.dtos.ResponsibleDTO;
 import comciudad.dona.dtos.RolDTO;
 import comciudad.dona.dtos.UsuarioDTO;
 import lombok.AllArgsConstructor;

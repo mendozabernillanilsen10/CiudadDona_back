@@ -1,8 +1,6 @@
 package comciudad.dona.service.impl;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -24,11 +22,13 @@ import comciudad.dona.repository.categoriaRepository;
 import comciudad.dona.service.categoriaService;
 import comciudad.dona.service.fileService;
 import comciudad.dona.utils.RandomStringGenerator;
+import comciudad.dona.utils.Rutas;
 import comciudad.dona.validadors.categoriaValidador;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
+
 public class categoriaImple implements categoriaService {
 	@Autowired
 	categoriaRepository repository;
@@ -40,17 +40,6 @@ public class categoriaImple implements categoriaService {
 	RandomStringGenerator x = new RandomStringGenerator();
 	String otp = x.generate(6);
 
-	public void deleteFoto(String fotoUrl) {
-		if (fotoUrl != null) {
-
-			Path filePath = Paths.get(uploadPath, "categoria", fotoUrl);
-			try {
-				Files.deleteIfExists(filePath);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-	}
 
 	@Override
 	public Category save(Category com, MultipartFile file) {
@@ -68,8 +57,8 @@ public class categoriaImple implements categoriaService {
 					String previousPhotoUrl = existingRecord.getFoto_url();
 
 					if (previousPhotoUrl != null) {
-						deleteFoto(previousPhotoUrl);
-						String categoryFolder = "categorias";
+						servicefile.deleteFoto(previousPhotoUrl);
+						String categoryFolder = Rutas.IMG_CATEGORIA;
 						Path folderPath = Paths.get(uploadPath, categoryFolder);
 						Path filePath = folderPath.resolve(previousPhotoUrl);
 						if (!Files.exists(folderPath)) {
@@ -85,7 +74,7 @@ public class categoriaImple implements categoriaService {
 						newRecord = repository.save(existingRecord);
 					} else {
 						existingRecord.setId(com.getId());
-						String categoryFolder = "categorias";
+						String categoryFolder = Rutas.IMG_CATEGORIA;
 						String fileName = x.generate(8) + ".png";
 						Path folderPath = Paths.get(uploadPath, categoryFolder);
 						Path filePath = folderPath.resolve(fileName);
@@ -101,7 +90,7 @@ public class categoriaImple implements categoriaService {
 						newRecord = repository.save(existingRecord);
 					}
 				} else {
-					String categoryFolder = "categorias";
+					String categoryFolder = Rutas.IMG_CATEGORIA;
 					String fileName = x.generate(8) + ".png";
 					Path folderPath = Paths.get(uploadPath, categoryFolder);
 					Path filePath = folderPath.resolve(fileName);
@@ -128,7 +117,6 @@ public class categoriaImple implements categoriaService {
 		}
 
 	}
-
 	@Override
 	public List<Category> findAll(Pageable page) {
 		try {

@@ -46,6 +46,13 @@ public class SecurityConfig {
 						"/v1/departamento/**",
 						"/v1/Role/**",
 						"/v1/Phone/**",
+						"/v1/SubCategoria/**",
+						
+						
+						"/v1/Store/**",
+						
+						
+						
 						"swagger-resources/**",
 						"/v1/Distrito/**",
 						"swagger-ui.html"	

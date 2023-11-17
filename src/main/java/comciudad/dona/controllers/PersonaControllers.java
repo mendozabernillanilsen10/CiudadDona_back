@@ -1,6 +1,6 @@
 package comciudad.dona.controllers;
 
-import java.util.Date;   
+import java.util.Date;    
 import java.util.List;
 import java.util.UUID;
 
@@ -13,12 +13,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,7 +33,6 @@ import comciudad.dona.dtos.PesonDTO;
 import comciudad.dona.dtos.PhoneDTO;
 import comciudad.dona.dtos.RegisterRequest;
 import comciudad.dona.dtos.RolDTO;
-import comciudad.dona.dtos.SignupRequestDTO;
 import comciudad.dona.dtos.UsuarioDTO;
 import comciudad.dona.entity.Address;
 import comciudad.dona.entity.Person;
@@ -52,6 +48,7 @@ import comciudad.dona.service.PhoneService;
 import comciudad.dona.service.RolService;
 import comciudad.dona.utils.WrapperResponse;
 import lombok.RequiredArgsConstructor;
+@SuppressWarnings({ "rawtypes", "unchecked" })
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/v1/Person")
@@ -114,7 +111,7 @@ public class PersonaControllers {
 		            per.setDNI(Dni);
 		            per.setName(nombre);
 		            per.setDate_of_Birth(fecha_na);
-		            Person registro = ser.save(per);
+		            ser.save(per);
 		            Phone phone = new Phone();
 		            phone.setCelular(Numero_celular);
 		            phone.setWhatsapp(Numero_whatsapp);

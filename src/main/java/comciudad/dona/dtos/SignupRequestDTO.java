@@ -1,7 +1,5 @@
 package comciudad.dona.dtos;
 
-import java.util.UUID;
-
 import comciudad.dona.entity.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

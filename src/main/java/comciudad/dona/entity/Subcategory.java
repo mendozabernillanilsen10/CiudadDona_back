@@ -30,29 +30,32 @@ import lombok.Setter;
 @Entity
 @Table(name="Subcategory")
 @EntityListeners(AuditingEntityListener.class)
-
 public class Subcategory {
 		@Id
 		@GeneratedValue
 		@Column(length=16)
 		private UUID id;	
-		@Column(name="name", unique=true,nullable=false,length=100)
+		@Column(name="name",nullable=false,length=100)
 		private String name ;
+		@Column(name = "fotoUrl")
+		private String foto_url;
+		
 		@ManyToOne(fetch=FetchType.LAZY)
 		@JoinColumn(name="idcategory")
 		@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
-	    private Category category;
+	    private Category idcategory;
+		
 		@Column(name="created_at",nullable = false, updatable = false)
 		@Temporal(TemporalType.TIMESTAMP)
+		
 		@CreatedDate
 		private Date createdAt;
 		@Column(name="updated_at",nullable = false)
 		@Temporal(TemporalType.TIMESTAMP)
 		@LastModifiedDate
 		private Date updatedAt;
+	
 		
-		@Column(name="activo",nullable=false)
-		private Boolean activo;
 		
 		 @Override
 		 public int hashCode() {

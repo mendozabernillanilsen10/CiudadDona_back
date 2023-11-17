@@ -1,6 +1,6 @@
 package comciudad.dona.utils;
 
-import java.io.IOException;
+import java.io.IOException; 
 import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -51,7 +51,7 @@ public class file implements fileService {
 			try {
 				Files.deleteIfExists(filePath);
 			} catch (IOException e) {
-				e.printStackTrace();
+				
 			}
 		}
 	}
