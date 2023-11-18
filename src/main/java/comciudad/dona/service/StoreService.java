@@ -17,6 +17,8 @@ public interface StoreService {
 	public List<Category> obtenerCategoriasPorDistrito(Long idDistrito);
 	public List<Subcategory> obtenerSubcategoriasPorTiendaDistritoYCategoria(Long idDistrito, UUID idCategoria) ;
 	public List<Store> obtenerTiendasPorDistritoYCategoria(Long idDistrito, UUID idCategoria);
-	public List<Store> obtenerTiendasPorDistrito(Long idDistrito);
+	
 
+	public List<Store> obtenerTiendasPorDistrito(Long pIdDistrito,
+			UUID pIdCategoria ,UUID pIdSubcategoria);
 }

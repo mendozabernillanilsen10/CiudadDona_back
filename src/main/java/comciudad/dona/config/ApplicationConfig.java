@@ -29,10 +29,15 @@ public class ApplicationConfig {
 		authenticationProvider.setPasswordEncoder(passwordEncoder());
 		return authenticationProvider;
 	}
+	
+	
 	@Bean
 	PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
+	
+	
+	
 	@Bean
 	UserDetailsService userDetailService() {
 		return Username -> userRepository.findByUsername(Username)

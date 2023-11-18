@@ -57,10 +57,6 @@ public class AuthService {
 	private TwilioSmsService smsService;
 	private Map<String, String> otps = new HashMap<>();
 
-	
-	
-	// GENERAR CODIGO OTP PHONE
-	
 	public ResponseEmailDto generarOtpPhone(String phone) {
 		ResponseEmailDto ms = new ResponseEmailDto();
 

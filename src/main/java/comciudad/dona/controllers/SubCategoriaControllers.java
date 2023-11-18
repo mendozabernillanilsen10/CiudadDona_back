@@ -95,7 +95,9 @@ public class SubCategoriaControllers {
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<WrapperResponse<CategoriaDTO>> 
 	findById(@PathVariable("id") UUID id) {
-        List<Subcategory> cats = service.findAll();
+		Category categoria = new Category();
+		categoria.setId(id);
+        List<Subcategory> cats = service.finByCategory(categoria);
 		List<CategoriaDTO> dtos = new ArrayList<>();
 		for (Subcategory c : cats) {
 			CategoriaDTO dto = new CategoriaDTO();

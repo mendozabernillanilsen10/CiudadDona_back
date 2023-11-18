@@ -62,12 +62,16 @@ public class StoreControllers {
 	private companiaService companiservice;
 	
 	
-	  @GetMapping("/por-distrito/{idDistrito}")
+	  @GetMapping("/por-distrito-cat-sub/{pIdDistrito}/{pIdCategoria}/{pIdSubcategoria}")
 		public ResponseEntity<List<CategoriaDTO>> obtenerTiendasPorDistrito(
-				@PathVariable Long idDistrito
+				@PathVariable Long pIdDistrito,
+				@PathVariable UUID pIdCategoria,
+				@PathVariable UUID pIdSubcategoria
 
 		) {
-	        List<Store> cats = storeservice.obtenerTiendasPorDistrito(idDistrito);
+	        List<Store> cats = storeservice.obtenerTiendasPorDistrito(
+	        		pIdDistrito,
+	    			pIdCategoria , pIdSubcategoria);
 
 			List<CategoriaDTO> dtos = new ArrayList<>();
 			for (Store c : cats) {
@@ -81,8 +85,9 @@ public class StoreControllers {
 			return new WrapperResponse(true, "success", dtos).createResponse(HttpStatus.OK);
 		}
 
-	@GetMapping("/StoreSubCategoria/{idDistrito}/{idCategoria}")
-	public ResponseEntity<List<CategoriaDTO>> obtenerSubcategoriasPorTiendaDistritoYCategoria(
+	@GetMapping("/StoreSinSubCategoria/{idDistrito}/{idCategoria}")
+	public ResponseEntity<List<CategoriaDTO>> 
+	obtenerSubcategoriasPorTiendaDistritoYCategoria(
 			@PathVariable Long idDistrito, @PathVariable UUID idCategoria
 
 	) {

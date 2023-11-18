@@ -1,11 +1,12 @@
 package comciudad.dona.service.impl;
-import java.io.IOException; 
+
+import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.List;  
+import java.util.List;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,9 +24,10 @@ import comciudad.dona.utils.RandomStringGenerator;
 import comciudad.dona.utils.Rutas;
 import lombok.extern.slf4j.Slf4j;
 import comciudad.dona.repository.SubCategoriaRepository;
+
 @Service
 @Slf4j
-public class SubCategoriaServiceImplem  implements SubCategoriaService{
+public class SubCategoriaServiceImplem implements SubCategoriaService {
 	@Autowired
 	SubCategoriaRepository repository;
 
@@ -47,35 +49,52 @@ public class SubCategoriaServiceImplem  implements SubCategoriaService{
 			}
 		}
 	}
-	
+
+	@Override
+	public List<Subcategory> finByCategory(Category categoria) {
+
+		try {
+			List<Subcategory> articulo = repository.findByidcategory(categoria);
+			return articulo;
+		} catch (ValidateServiceException | NoDataFoundException e) {
+			log.info(e.getMessage(), e);
+			throw e;
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			throw new GeneralServiceException(e.getMessage(), e);
+		}
+	}
+
 	@Override
 	public List<Subcategory> findAll() {
 		try {
-			 List<Subcategory> compani = repository.findAll(); 
-	  	      return compani;
-		}catch(ValidateServiceException | NoDataFoundException e) {
+			List<Subcategory> compani = repository.findAll();
+			return compani;
+		} catch (ValidateServiceException | NoDataFoundException e) {
 			log.info(e.getMessage(), e);
 			throw e;
-		}catch(Exception e) {
+		} catch (Exception e) {
 			log.error(e.getMessage());
 			throw new GeneralServiceException(e.getMessage(), e);
 		}
 	}
+
 	@Override
 	public Subcategory findById(UUID id) {
 		try {
-			Subcategory existeRegistro= repository.findById(id)
-					.orElseThrow(()->new NoDataFoundException("No Existe el Registro ")); 
+			Subcategory existeRegistro = repository.findById(id)
+					.orElseThrow(() -> new NoDataFoundException("No Existe el Registro "));
 			return existeRegistro;
-		}catch(ValidateServiceException | NoDataFoundException e) {
+		} catch (ValidateServiceException | NoDataFoundException e) {
 			log.info(e.getMessage(), e);
 			throw e;
-		}catch(Exception e) {
+		} catch (Exception e) {
 			log.error(e.getMessage());
-			
+
 			throw new GeneralServiceException(e.getMessage(), e);
 		}
 	}
+
 	@Override
 	public Subcategory save(Subcategory com, MultipartFile file) {
 		try {
@@ -106,13 +125,13 @@ public class SubCategoriaServiceImplem  implements SubCategoriaService{
 						existingRecord.setFoto_url(previousPhotoUrl);
 						existingRecord.setName(com.getName());
 						existingRecord.setIdcategory(com.getIdcategory());
-						
+
 						newRecord = repository.save(existingRecord);
 					} else {
 						existingRecord.setId(com.getId());
 						String categoryFolder = Rutas.IMG_SUB_CATEGORIA;
 						String fileName = x.generate(8) + ".png";
-						
+
 						Path folderPath = Paths.get(uploadPath, categoryFolder);
 						Path filePath = folderPath.resolve(fileName);
 						if (!Files.exists(folderPath)) {
@@ -154,13 +173,14 @@ public class SubCategoriaServiceImplem  implements SubCategoriaService{
 			throw new GeneralServiceException(e.getMessage(), e);
 		}
 	}
+
 	@Override
 	public void delete(UUID id) {
 		try {
-			Subcategory existeRegistro= repository.findById(id)
-					.orElseThrow(()->new NoDataFoundException("No Existe el Registro"));
-		
-		   repository.delete(existeRegistro);
+			Subcategory existeRegistro = repository.findById(id)
+					.orElseThrow(() -> new NoDataFoundException("No Existe el Registro"));
+
+			repository.delete(existeRegistro);
 		} catch (ValidateServiceException | NoDataFoundException e) {
 			log.info(e.getMessage(), e);
 			throw e;
@@ -168,22 +188,6 @@ public class SubCategoriaServiceImplem  implements SubCategoriaService{
 			log.error(e.getMessage());
 			throw new GeneralServiceException(e.getMessage(), e);
 		}
-	}
-	@Override
-	public Subcategory finByCategory(Category categoria) {
-
-		try {
-			Subcategory articulo= repository.findByidcategory(categoria);
-		
-			return articulo;
-		}catch(ValidateServiceException | NoDataFoundException e) {
-			log.info(e.getMessage(), e);
-			throw e;
-		}catch(Exception e) {
-			log.error(e.getMessage());
-			throw new GeneralServiceException(e.getMessage(), e);
-		}
-
 	}
 
 }

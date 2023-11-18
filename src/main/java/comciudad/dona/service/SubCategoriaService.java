@@ -7,8 +7,10 @@ import comciudad.dona.entity.Subcategory;
 public interface SubCategoriaService {
 	public List<Subcategory> findAll();
 	public Subcategory findById(UUID id); 
+	
+
 	public Subcategory save(Subcategory com, MultipartFile file); 
 	public void delete(UUID id); 
-	public Subcategory finByCategory(Category categoria); 
+	public List<Subcategory> finByCategory(Category categoria); 
 
 }

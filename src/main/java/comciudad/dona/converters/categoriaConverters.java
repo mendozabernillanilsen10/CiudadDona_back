@@ -1,6 +1,6 @@
 package comciudad.dona.converters;
  
-import comciudad.dona.dtos.CategoriaDTO;
+import comciudad.dona.dtos.CategoriaDTO; 
 import comciudad.dona.entity.Category;
 
 public class categoriaConverters extends AbstractConverter<Category,CategoriaDTO>  {

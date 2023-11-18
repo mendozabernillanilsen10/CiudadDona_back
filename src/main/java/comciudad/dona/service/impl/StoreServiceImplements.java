@@ -53,29 +53,28 @@ public class StoreServiceImplements implements StoreService {
         return repository.obtenerTiendasPorDistritoYCategoria(idDistrito, idCategoria);
     }
 	@Override
-	public List<Store> obtenerTiendasPorDistrito(Long idDistrito) {
-        return repository.findByidDistritoId(idDistrito);
+	public List<Store> obtenerTiendasPorDistrito(Long pIdDistrito,
+			UUID pIdCategoria ,UUID pIdSubcategoria) {
+		
+        return repository.obtenerTiendasPorDistritoYCategoria( pIdDistrito,
+    			pIdCategoria , pIdSubcategoria);
     }
-
 	@Override
 	public List<Category> obtenerCategoriasPorDistrito(Long idDistrito) {
 		List<Store> storesInDistrito = repository.findByidDistritoId(idDistrito);
 		Set<Category> uniqueCategories = storesInDistrito.stream().map(Store::getCategory).collect(Collectors.toSet());
 		return new ArrayList<>(uniqueCategories);
 	}
-
 	@Override
 	public List<Store> findAll(Pageable page) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 	@Override
 	public Store findById(UUID id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 	@Override
 	public Store save(Store com, MultipartFile file) {
 		try {
