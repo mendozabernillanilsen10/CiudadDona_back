@@ -29,6 +29,7 @@ import comciudad.dona.entity.Subcategory;
 import comciudad.dona.exceptions.GeneralServiceException;
 import comciudad.dona.exceptions.NoDataFoundException;
 import comciudad.dona.exceptions.ValidateServiceException;
+import comciudad.dona.service.StoreService;
 import comciudad.dona.service.SubCategoriaService;
 import comciudad.dona.service.categoriaService;
 import comciudad.dona.service.fileService;
@@ -49,7 +50,8 @@ public class SubCategoriaControllers {
 	private String uploadPath;
 	@Autowired
 	private fileService servicefile;
-	
+	@Autowired
+	private StoreService storeService;
 	@PostMapping
 	public ResponseEntity<SubCategoryDTO> create(@RequestParam("nombre") String nombre,
 			@RequestParam("foto") MultipartFile foto, @RequestParam("catId") UUID catId
@@ -72,8 +74,23 @@ public class SubCategoriaControllers {
 		}
 	}
 	
-	
-	
+	@GetMapping("/subcategories/{idDistrito}/{idCategoria}")
+	public ResponseEntity<List<CategoriaDTO>> GetSubcategoriasDistritoCat(@PathVariable Long idDistrito,
+			@PathVariable UUID idCategoria
+
+	) {
+		List<Subcategory> cats = storeService.obtenerSubcategoriasPorTiendaDistritoYCategoria(idDistrito, idCategoria);
+		List<CategoriaDTO> dtos = new ArrayList<>();
+		for (Subcategory c : cats) {
+			CategoriaDTO dto = new CategoriaDTO();
+			dto.setId(c.getId());
+			dto.setNombre(c.getName());
+			dto.setFoto_url(MvcUriComponentsBuilder
+					.fromMethodName(SubCategoriaControllers.class, "serveFile", c.getFoto_url()).build().toString());
+			dtos.add(dto);
+		}
+		return new WrapperResponse(true, "success", dtos).createResponse(HttpStatus.OK);
+	}
 	
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<WrapperResponse<CategoriaDTO>> 

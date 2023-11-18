@@ -17,5 +17,5 @@ public class CategoriaDTO {
     private UUID id;
     private String nombre;
     private String  foto_url; 
-    private Boolean activo;
+
 }

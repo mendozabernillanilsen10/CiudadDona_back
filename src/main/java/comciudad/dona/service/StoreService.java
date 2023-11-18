@@ -14,4 +14,9 @@ public interface StoreService {
 	public void delete(UUID id); 
 	public Store listarCategorias(Category categoria); 
 	public Store listarSubCategorias(Subcategory subcategoria); 
+	public List<Category> obtenerCategoriasPorDistrito(Long idDistrito);
+	public List<Subcategory> obtenerSubcategoriasPorTiendaDistritoYCategoria(Long idDistrito, UUID idCategoria) ;
+	public List<Store> obtenerTiendasPorDistritoYCategoria(Long idDistrito, UUID idCategoria);
+	public List<Store> obtenerTiendasPorDistrito(Long idDistrito);
+
 }

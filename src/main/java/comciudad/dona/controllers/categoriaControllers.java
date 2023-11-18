@@ -1,6 +1,6 @@
 package comciudad.dona.controllers;
 
-import java.nio.file.Paths;
+import java.nio.file.Paths; 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -23,18 +23,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
-
 import comciudad.dona.converters.categoriaConverters;
 import comciudad.dona.dtos.CategoriaDTO;
 import comciudad.dona.entity.Category;
 import comciudad.dona.exceptions.GeneralServiceException;
 import comciudad.dona.exceptions.NoDataFoundException;
 import comciudad.dona.exceptions.ValidateServiceException;
+import comciudad.dona.service.StoreService;
 import comciudad.dona.service.categoriaService;
 import comciudad.dona.service.fileService;
 import comciudad.dona.utils.Rutas;
 import comciudad.dona.utils.WrapperResponse;
+
 import lombok.extern.slf4j.Slf4j;
+
 @SuppressWarnings({ "rawtypes", "unchecked" })
 @Slf4j
 @RestController
@@ -42,30 +44,43 @@ import lombok.extern.slf4j.Slf4j;
 public class categoriaControllers {
 	@Autowired
 	private categoriaService service;
-	
-	
-	
+
+	@Autowired
+	private StoreService storeService;
 	@Autowired
 	private fileService servicefile;
-	
+
 	private categoriaConverters converter = new categoriaConverters();
 	@Value("${spring.servlet.multipart.location}")
 	private String uploadPath;
+
 	
+	@GetMapping("/por-distrito/{idDistrito}")
+	public ResponseEntity<List<CategoriaDTO>> sssfindAll(@PathVariable Long idDistrito) {
+		List<Category> cats = storeService.obtenerCategoriasPorDistrito(idDistrito);
+		List<CategoriaDTO> dtos = new ArrayList<>();
+		for (Category c : cats) {
+			CategoriaDTO dto = new CategoriaDTO();
+			dto.setId(c.getId());
+			dto.setNombre(c.getName());
+			dto.setFoto_url(MvcUriComponentsBuilder
+					.fromMethodName(categoriaControllers.class, "serveFile", c.getFoto_url()).build().toString());
+			dtos.add(dto);
+		}
+		return new WrapperResponse(true, "success", dtos).createResponse(HttpStatus.OK);
+	}
+
 	@GetMapping
 	public ResponseEntity<List<CategoriaDTO>> findAll(
 			@RequestParam(value = "offset", required = false, defaultValue = "0") int pageNumber,
 			@RequestParam(value = "limit", required = false, defaultValue = "5") int pageSize) {
 		Pageable page = PageRequest.of(pageNumber, pageSize);
 		List<Category> cats = service.findAll(page);
-		
 		List<CategoriaDTO> dtos = new ArrayList<>();
 		for (Category c : cats) {
 			CategoriaDTO dto = new CategoriaDTO();
-
 			dto.setId(c.getId());
 			dto.setNombre(c.getName());
-
 			dto.setFoto_url(MvcUriComponentsBuilder
 					.fromMethodName(categoriaControllers.class, "serveFile", c.getFoto_url()).build().toString());
 			dtos.add(dto);
@@ -82,8 +97,6 @@ public class categoriaControllers {
 				.body(file);
 	}
 
-	
-	
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<WrapperResponse<CategoriaDTO>> findById(@PathVariable("id") UUID id) {
 		Category compani = service.findById(id);
@@ -91,9 +104,9 @@ public class categoriaControllers {
 		return new WrapperResponse<CategoriaDTO>(true, "succes", compDTO).createResponse(HttpStatus.OK);
 
 	}
+
 	@PostMapping
-	public ResponseEntity<CategoriaDTO> create(
-			@RequestParam("nombre") String nombre,
+	public ResponseEntity<CategoriaDTO> create(@RequestParam("nombre") String nombre,
 			@RequestParam("foto") MultipartFile foto) {
 		try {
 			Category categoria = new Category();
@@ -110,13 +123,9 @@ public class categoriaControllers {
 		}
 
 	}
-	
-	
-	
+
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<CategoriaDTO> update(
-			@PathVariable("id") UUID id,
-			@RequestParam("nombre") String nombre,
+	public ResponseEntity<CategoriaDTO> update(@PathVariable("id") UUID id, @RequestParam("nombre") String nombre,
 			@RequestParam("foto") MultipartFile foto) {
 		try {
 			Category categoria = new Category();

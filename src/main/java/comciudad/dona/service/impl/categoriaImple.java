@@ -85,7 +85,6 @@ public class categoriaImple implements categoriaService {
 							Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
 						}
 						existingRecord.setFoto_url(fileName);
-						existingRecord.setActivo(true);
 						existingRecord.setName(com.getName());
 						newRecord = repository.save(existingRecord);
 					}
@@ -101,7 +100,6 @@ public class categoriaImple implements categoriaService {
 						Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
 					}
 					existingRecord.setFoto_url(fileName);
-					existingRecord.setActivo(true);
 					existingRecord.setName(com.getName());
 					newRecord = repository.save(existingRecord);
 				}

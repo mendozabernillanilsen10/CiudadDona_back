@@ -5,8 +5,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,36 +24,58 @@ import comciudad.dona.exceptions.GeneralServiceException;
 import comciudad.dona.exceptions.NoDataFoundException;
 import comciudad.dona.exceptions.ValidateServiceException;
 import comciudad.dona.repository.StoreRepository;
+import comciudad.dona.repository.categoriaRepository;
 import comciudad.dona.service.StoreService;
 import comciudad.dona.service.fileService;
 import comciudad.dona.utils.RandomStringGenerator;
 import comciudad.dona.utils.Rutas;
 import lombok.extern.slf4j.Slf4j;
+
 @Service
 @Slf4j
-public class StoreServiceImplements  implements StoreService {
+public class StoreServiceImplements implements StoreService {
 	@Autowired
 	StoreRepository repository;
+	@Autowired
+	categoriaRepository categoryRepository;
+
 	@Value("${spring.servlet.multipart.location}")
 	private String uploadPath;
 	@Autowired
 	private fileService servicefile;
 	RandomStringGenerator x = new RandomStringGenerator();
-	
+	@Override
+	public List<Subcategory> obtenerSubcategoriasPorTiendaDistritoYCategoria(Long idDistrito, UUID idCategoria) {
+		return repository.obtenerSubcategoriasPorTiendaDistritoYCategoria(idDistrito, idCategoria);
+	}
+	@Override
+	public List<Store> obtenerTiendasPorDistritoYCategoria(Long idDistrito, UUID idCategoria) {
+        return repository.obtenerTiendasPorDistritoYCategoria(idDistrito, idCategoria);
+    }
+	@Override
+	public List<Store> obtenerTiendasPorDistrito(Long idDistrito) {
+        return repository.findByidDistritoId(idDistrito);
+    }
+
+	@Override
+	public List<Category> obtenerCategoriasPorDistrito(Long idDistrito) {
+		List<Store> storesInDistrito = repository.findByidDistritoId(idDistrito);
+		Set<Category> uniqueCategories = storesInDistrito.stream().map(Store::getCategory).collect(Collectors.toSet());
+		return new ArrayList<>(uniqueCategories);
+	}
+
 	@Override
 	public List<Store> findAll(Pageable page) {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 	@Override
 	public Store findById(UUID id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	public Store savesave(Store estore, MultipartFile foto) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 	@Override
 	public Store save(Store com, MultipartFile file) {
 		try {
@@ -75,7 +100,7 @@ public class StoreServiceImplements  implements StoreService {
 						try (InputStream inputStream = file.getInputStream()) {
 							Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
 						}
-						
+
 						existingRecord.setIdDistrito(com.getIdDistrito());
 						existingRecord.setName(com.getName());
 						existingRecord.setId(com.getId());
@@ -118,8 +143,7 @@ public class StoreServiceImplements  implements StoreService {
 					try (InputStream inputStream = file.getInputStream()) {
 						Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
 					}
-					
-					
+
 					existingRecord.setName(com.getName());
 					existingRecord.setFoto_url(fileName);
 					existingRecord.setActivo(true);
@@ -127,8 +151,7 @@ public class StoreServiceImplements  implements StoreService {
 					existingRecord.setCompany(com.getCompany());
 					existingRecord.setSubcategory(com.getSubcategory());
 					existingRecord.setIdDistrito(com.getIdDistrito());
-					
-					
+
 					newRecord = repository.save(existingRecord);
 				}
 			}
@@ -146,13 +169,15 @@ public class StoreServiceImplements  implements StoreService {
 	@Override
 	public void delete(UUID id) {
 		// TODO Auto-generated method stub
-		
+
 	}
+
 	@Override
 	public Store listarCategorias(Category categoria) {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 	@Override
 	public Store listarSubCategorias(Subcategory subcategoria) {
 		// TODO Auto-generated method stub

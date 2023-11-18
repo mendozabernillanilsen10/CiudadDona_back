@@ -12,7 +12,6 @@ public class categoriaConverters extends AbstractConverter<Category,CategoriaDTO
                 .id(entity.getId())
                 .nombre(entity.getName())
                 .foto_url(entity.getFoto_url()) // Cambiado de "Nombre" a "nombre"
-                .activo(entity.getActivo())
                 .build(); 
 	}
 

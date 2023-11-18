@@ -46,8 +46,7 @@ public class Category {
 	@Temporal(TemporalType.TIMESTAMP)
 	@LastModifiedDate 
 	private Date updatedAt; 
-	@Column(name="activo",nullable=false)
-	private Boolean activo;
+
 	@Override
 	 public int hashCode() {
 	     return id.hashCode();
