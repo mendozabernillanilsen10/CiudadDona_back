@@ -4,6 +4,8 @@ import java.util.UUID;
 import comciudad.dona.entity.Company;
 import comciudad.dona.entity.User;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+@Service
 public interface companiaService {
 	public List<Company> findAll(Pageable page);
 	public List<Company> finByNombre(String nombre,Pageable page); 

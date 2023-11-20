@@ -3,11 +3,12 @@ package comciudad.dona.service;
 import java.util.List; 
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import comciudad.dona.entity.ubdistrito;
 import comciudad.dona.entity.ubprovincia;
-
+@Service
 public interface DistritoService {
 	public List<ubdistrito> findAll(Pageable page);
 	public List<ubdistrito> finByNombre(String nombre,Pageable page);

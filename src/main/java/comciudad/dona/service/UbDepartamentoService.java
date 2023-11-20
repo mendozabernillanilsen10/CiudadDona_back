@@ -1,9 +1,12 @@
 package comciudad.dona.service;
-import java.util.List;  
+import java.util.List;   
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
 import comciudad.dona.entity.Pais;
 import comciudad.dona.entity.ubdepartamento;
+
+@Service
 public interface UbDepartamentoService {
 	public List<ubdepartamento> findAll(Pageable page);
 	public List<ubdepartamento> finByNombre(String nombre,Pageable page);

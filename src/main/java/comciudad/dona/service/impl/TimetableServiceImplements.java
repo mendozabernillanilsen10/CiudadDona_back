@@ -1,12 +1,9 @@
 package comciudad.dona.service.impl;
 
-import java.util.List;
+import java.util.List; 
 import java.util.UUID;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import comciudad.dona.entity.Phone;
 import comciudad.dona.entity.Timetable;
 import comciudad.dona.entity.User;
 import comciudad.dona.exceptions.GeneralServiceException;
@@ -14,7 +11,6 @@ import comciudad.dona.exceptions.NoDataFoundException;
 import comciudad.dona.exceptions.ValidateServiceException;
 import comciudad.dona.repository.TimetableRepository;
 import comciudad.dona.service.TimetableService;
-import comciudad.dona.validadors.PhoneValid;
 import comciudad.dona.validadors.TimetableValid;
 import lombok.extern.slf4j.Slf4j;
 
@@ -59,9 +55,9 @@ public class TimetableServiceImplements implements TimetableService {
 			throw new GeneralServiceException(e.getMessage(), e);
 		}
 	}
+	
 	@Override
 	public void delete(UUID id) {
-		// TODO Auto-generated method stub
 
 	}
 
