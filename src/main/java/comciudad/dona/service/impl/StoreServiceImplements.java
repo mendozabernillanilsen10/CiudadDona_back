@@ -1,15 +1,14 @@
 package comciudad.dona.service.impl;
 
-import java.io.InputStream;  
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
+
 import java.util.List;
-import java.util.Set;
+
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,6 +22,7 @@ import comciudad.dona.entity.Subcategory;
 import comciudad.dona.exceptions.GeneralServiceException;
 import comciudad.dona.exceptions.NoDataFoundException;
 import comciudad.dona.exceptions.ValidateServiceException;
+import comciudad.dona.repository.CategoriStoreRepository;
 import comciudad.dona.repository.StoreRepository;
 import comciudad.dona.repository.categoriaRepository;
 import comciudad.dona.service.StoreService;
@@ -31,7 +31,6 @@ import comciudad.dona.utils.RandomStringGenerator;
 import comciudad.dona.utils.Rutas;
 import lombok.extern.slf4j.Slf4j;
 
-
 @Service
 @Slf4j
 public class StoreServiceImplements implements StoreService {
@@ -39,43 +38,49 @@ public class StoreServiceImplements implements StoreService {
 	StoreRepository repository;
 	@Autowired
 	categoriaRepository categoryRepository;
+	@Autowired
+	CategoriStoreRepository repository1w;
 
 	@Value("${spring.servlet.multipart.location}")
 	private String uploadPath;
 	@Autowired
 	private fileService servicefile;
 	RandomStringGenerator x = new RandomStringGenerator();
+
 	@Override
 	public List<Subcategory> obtenerSubcategoriasPorTiendaDistritoYCategoria(Long idDistrito, UUID idCategoria) {
 		return repository.obtenerSubcategoriasPorTiendaDistritoYCategoria(idDistrito, idCategoria);
+
 	}
+
 	@Override
 	public List<Store> obtenerTiendasPorDistritoYCategoria(Long idDistrito, UUID idCategoria) {
-        return repository.obtenerTiendasPorDistritoYCategoria(idDistrito, idCategoria);
-    }
+		return repository.obtenerTiendasPorDistritoYCategoria(idDistrito, idCategoria);
+
+	}
+
 	@Override
-	public List<Store> obtenerTiendasPorDistrito(Long pIdDistrito,
-			UUID pIdCategoria ,UUID pIdSubcategoria) {
-		
-        return repository.obtenerTiendasPorDistritoYCategoria( pIdDistrito,
-    			pIdCategoria , pIdSubcategoria);
-    }
+	public List<Store> obtenerTiendasPorDistrito(Long pIdDistrito, UUID pIdCategoria, UUID pIdSubcategoria) {
+		return repository.obtenerTiendasPorDistritoYCategoria(pIdDistrito, pIdCategoria, pIdSubcategoria);
+	}
 	@Override
 	public List<Category> obtenerCategoriasPorDistrito(Long idDistrito) {
-		List<Store> storesInDistrito = repository.findByidDistritoId(idDistrito);
-		Set<Category> uniqueCategories = storesInDistrito.stream().map(Store::getCategory).collect(Collectors.toSet());
-		return new ArrayList<>(uniqueCategories);
+
+		return repository1w.findDistinctCategoriesByDistrito(idDistrito);
 	}
+
 	@Override
 	public List<Store> findAll(Pageable page) {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 	@Override
 	public Store findById(UUID id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 	@Override
 	public Store save(Store com, MultipartFile file) {
 		try {
@@ -106,9 +111,9 @@ public class StoreServiceImplements implements StoreService {
 						existingRecord.setId(com.getId());
 						existingRecord.setFoto_url(previousPhotoUrl);
 						existingRecord.setActivo(true);
-						existingRecord.setCategory(com.getCategory());
+						// existingRecord.setCategory(com.getCategory());
 						existingRecord.setCompany(com.getCompany());
-						existingRecord.setSubcategory(com.getSubcategory());
+						// existingRecord.setSubcategory(com.getSubcategory());
 						newRecord = repository.save(existingRecord);
 					} else {
 						existingRecord.setId(com.getId());
@@ -126,9 +131,9 @@ public class StoreServiceImplements implements StoreService {
 
 						existingRecord.setFoto_url(fileName);
 						existingRecord.setActivo(true);
-						existingRecord.setCategory(com.getCategory());
+						// existingRecord.setCategory(com.getCategory());
 						existingRecord.setCompany(com.getCompany());
-						existingRecord.setSubcategory(com.getSubcategory());
+						// existingRecord.setSubcategory(com.getSubcategory());
 						existingRecord.setName(com.getName());
 						newRecord = repository.save(existingRecord);
 					}
@@ -147,9 +152,9 @@ public class StoreServiceImplements implements StoreService {
 					existingRecord.setName(com.getName());
 					existingRecord.setFoto_url(fileName);
 					existingRecord.setActivo(true);
-					existingRecord.setCategory(com.getCategory());
+					// existingRecord.setCategory(com.getCategory());
 					existingRecord.setCompany(com.getCompany());
-					existingRecord.setSubcategory(com.getSubcategory());
+					// existingRecord.setSubcategory(com.getSubcategory());
 					existingRecord.setIdDistrito(com.getIdDistrito());
 
 					newRecord = repository.save(existingRecord);
@@ -165,7 +170,6 @@ public class StoreServiceImplements implements StoreService {
 		}
 
 	}
-
 
 	@Override
 	public void delete(UUID id) {
@@ -184,4 +188,5 @@ public class StoreServiceImplements implements StoreService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 }

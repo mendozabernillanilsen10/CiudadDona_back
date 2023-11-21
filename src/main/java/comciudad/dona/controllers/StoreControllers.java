@@ -1,6 +1,6 @@
 package comciudad.dona.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;  
+import org.springframework.beans.factory.annotation.Autowired;    
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import comciudad.dona.converters.StoreRequestConverterts;
 import comciudad.dona.utils.WrapperResponse;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -19,6 +18,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
+
 import comciudad.dona.dtos.CategoriaDTO;
 
 import comciudad.dona.entity.Store;
@@ -41,7 +41,6 @@ public class StoreControllers {
 	@Autowired
 	private StoreService storeservice;
 
-	StoreRequestConverterts  converter = new StoreRequestConverterts();
 	
 	  @GetMapping("/por-distrito-cat-sub/{pIdDistrito}/{pIdCategoria}/{pIdSubcategoria}")
 		public ResponseEntity<List<CategoriaDTO>> obtenerTiendasPorDistrito(
@@ -65,7 +64,7 @@ public class StoreControllers {
 			}
 			return new WrapperResponse(true, "success", dtos).createResponse(HttpStatus.OK);
 		}
-
+	
 	@GetMapping("/StoreSinSubCategoria/{idDistrito}/{idCategoria}")
 	public ResponseEntity<List<CategoriaDTO>> 
 	obtenerSubcategoriasPorTiendaDistritoYCategoria(
@@ -73,7 +72,6 @@ public class StoreControllers {
 
 	) {
 		List<Store> cats = storeservice.obtenerTiendasPorDistritoYCategoria(idDistrito, idCategoria);
-
 		List<CategoriaDTO> dtos = new ArrayList<>();
 		for (Store c : cats) {
 			CategoriaDTO dto = new CategoriaDTO();
@@ -86,6 +84,7 @@ public class StoreControllers {
 		return new WrapperResponse(true, "success", dtos).createResponse(HttpStatus.OK);
 	}
 
+	
 	@GetMapping(value = "download")
 	public ResponseEntity<Resource> serveFile(@RequestParam(value = "filename") String filename) {
 		String filePath = Paths.get(uploadPath, Rutas.IMG_STORE, filename).toString();

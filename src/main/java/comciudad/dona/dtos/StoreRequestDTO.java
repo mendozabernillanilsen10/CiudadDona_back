@@ -1,9 +1,7 @@
 package comciudad.dona.dtos;
 
-import java.util.List;
+import java.util.List; 
 import java.util.UUID;
-
-import org.springframework.web.multipart.MultipartFile;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,4 +21,7 @@ public class StoreRequestDTO {
 	    private UUID companId;
 	    private Long idDistrito;
 	    private List<TimetableDTO> horarios;
+	    private List<CategoriaStoreDTO> categorias;
+
+	    
 }

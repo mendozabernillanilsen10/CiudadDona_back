@@ -1,9 +1,9 @@
 package comciudad.dona.dtos;
 
-import java.io.Serializable;  
+import java.io.Serializable;
+import java.util.List;
 import java.util.UUID;
 
-import comciudad.dona.entity.Store;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,12 +14,11 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class TimetableDTO implements Serializable  {
+public class CategoriaStoreDTO  implements Serializable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String apertura;
-	private String cierre;
-
+	private UUID Id_categoria;
+    private List<SubCategoriatoreDTO> subCategorias;
 }

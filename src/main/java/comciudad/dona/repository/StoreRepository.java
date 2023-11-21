@@ -13,19 +13,35 @@ public interface StoreRepository extends JpaRepository<Store, UUID> {
 
 	List<Store> findByidDistritoId(Long idDistrito);
 
-	@Query("SELECT s FROM Store s " + "WHERE s.idDistrito.id = :p_id_distrito " + "AND s.category.id = :p_id_categoria "
-			+ "AND s.subcategory.id = :p_id_subcategoria")
-	List<Store> obtenerTiendasPorDistritoYCategoria(@Param("p_id_distrito") Long pIdDistrito,
-			@Param("p_id_categoria") UUID pIdCategoria, @Param("p_id_subcategoria") UUID pIdSubcategoria);
-
-	@Query("SELECT DISTINCT sc FROM Store s " + "JOIN s.subcategory sc " + "WHERE s.idDistrito.id = :p_id_distrito "
-			+ "AND s.category.id = :p_id_categoria")
-	List<Subcategory> obtenerSubcategoriasPorTiendaDistritoYCategoria(@Param("p_id_distrito") Long pIdDistrito,
-			@Param("p_id_categoria") UUID pIdCategoria);
-
-	@Query("SELECT s FROM Store s " + "WHERE s.idDistrito.id = :p_id_distrito " + "AND s.category.id = :p_id_categoria "
-			+ "AND (s.subcategory IS NULL OR s.subcategory.id IS NULL)")
-	List<Store> obtenerTiendasPorDistritoYCategoria(@Param("p_id_distrito") Long pIdDistrito,
-			@Param("p_id_categoria") UUID pIdCategoria);
+	  @Query("SELECT s FROM Store s " +
+	            "JOIN CategoriStore cs ON s.id = cs.store.id " +
+	            "JOIN SubCategoriStore scs ON cs.id = scs.idcategorystore.id " +
+	            "WHERE s.idDistrito.id = :p_id_distrito " +
+	            "AND cs.category.id = :p_id_categoria " +
+	            "AND scs.subcategory.id = :p_id_subcategoria")
+	    List<Store> obtenerTiendasPorDistritoYCategoria(
+	            @Param("p_id_distrito") Long pIdDistrito,
+	            @Param("p_id_categoria") UUID pIdCategoria,
+	            @Param("p_id_subcategoria") UUID pIdSubcategoria);
+	
+	  @Query("SELECT DISTINCT sc FROM Store s " +
+	            "JOIN CategoriStore cs ON s.id = cs.store.id " +
+	            "JOIN SubCategoriStore scs ON cs.id = scs.idcategorystore.id " +
+	            "JOIN Subcategory sc ON scs.subcategory.id = sc.id " +
+	            "WHERE s.idDistrito.id = :p_id_distrito " +
+	            "AND cs.category.id = :p_id_categoria")
+	    List<Subcategory> obtenerSubcategoriasPorTiendaDistritoYCategoria(
+	            @Param("p_id_distrito") Long pIdDistrito,
+	            @Param("p_id_categoria") UUID pIdCategoria);
+	  
+	  @Query("SELECT s FROM Store s " +
+	            "JOIN CategoriStore cs ON s.id = cs.store.id " +
+	            "LEFT JOIN SubCategoriStore scs ON cs.id = scs.idcategorystore.id " +
+	            "WHERE s.idDistrito.id = :p_id_distrito " +
+	            "AND cs.category.id = :p_id_categoria " +
+	            "AND scs.id IS NULL")
+	    List<Store> obtenerTiendasPorDistritoYCategoria(
+	            @Param("p_id_distrito") Long pIdDistrito,
+	            @Param("p_id_categoria") UUID pIdCategoria);
 
 }

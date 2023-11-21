@@ -36,7 +36,7 @@ public class Category {
 	private String Name ;
 	@Column(name = "fotoUrl")
 	private String foto_url;
-	
+
 	
 	@Column(name="created_at",nullable=false, updatable=false)
 	@Temporal(TemporalType.TIMESTAMP)

@@ -166,14 +166,6 @@ public class AuthService {
 		throw new ValidateServiceException("Por favor regenera otro codigo  y vuelve a intentarlo.");
 	}
 
-	
-	
-	
-	
-	
-	
-	
-	
 	public AuthResponse login(LoginRequest request) {
 		try {
 			User usuario = userRepository.findByUsername(request.getUsername())
