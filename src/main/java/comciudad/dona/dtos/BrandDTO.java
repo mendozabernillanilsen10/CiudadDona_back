@@ -1,6 +1,5 @@
 package comciudad.dona.dtos;
-
-import java.io.Serializable;   
+import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,12 +10,9 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class TimetableDTO implements Serializable  {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private String apertura;
-	private String cierre;
-
+public class BrandDTO {
+	private UUID id;
+	private String nombre ;
+	private UUID idCategoria;
+	
 }

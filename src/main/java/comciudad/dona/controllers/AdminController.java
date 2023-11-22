@@ -1,11 +1,10 @@
 package comciudad.dona.controllers;
 
-import java.time.Instant;
+import java.time.Instant; 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -48,7 +47,7 @@ import comciudad.dona.service.categoriaService;
 import comciudad.dona.service.companiaService;
 import comciudad.dona.utils.WrapperResponse;
 import lombok.RequiredArgsConstructor;
-
+@SuppressWarnings({ "rawtypes", "unchecked" })
 @RestController
 @RequestMapping("/api/private")
 @RequiredArgsConstructor
@@ -75,15 +74,15 @@ public class AdminController {
 	@Autowired
 	SubCategoriStoreService substoricate;
 	@PostMapping("/AgregarTienda")
-	public ResponseEntity<ResponseSuces> create(@RequestParam(value = "nombre", required = false) String nombre,
-			@RequestParam(value = "foto", required = false) MultipartFile foto,
+	public ResponseEntity<TimetableDTO> create(@RequestParam(value = "nombre", required = false) String nombre,
+			@RequestParam(value = "file", required = false) MultipartFile foto,
 			@RequestParam(value = "CompanId", required = false) UUID CompanId,
 			@RequestParam(value = "id_distrito", required = false) Long id_distrito,
 			@RequestPart("horarios") List<TimetableDTO> horarios,
 			@RequestPart("categorias") List<CategoriaStoreDTO> Categorias
-
 	) {
 		try {
+			/*
 			ResponseSuces categoriaGuardadaDTO = new ResponseSuces();
 			Store store = new Store();
 			store.setName(nombre);
@@ -142,8 +141,11 @@ public class AdminController {
 			} else {
 				categoriaGuardadaDTO.setMensaje("fallo al registro ");
 			}
-			
-			return new WrapperResponse(true, "success", categoriaGuardadaDTO).createResponse(HttpStatus.OK);
+			*/
+			//return new WrapperResponse(true, "success", categoriaGuardadaDTO).createResponse(HttpStatus.OK);
+			return new WrapperResponse(true, "success", horarios).createResponse(HttpStatus.OK);
+
+		
 		} catch (ValidateServiceException | NoDataFoundException e) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST); // Maneja el error de validación
 		} catch (GeneralServiceException e) {

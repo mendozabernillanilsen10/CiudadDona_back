@@ -1,6 +1,6 @@
 package comciudad.dona.controllers;
 
-import java.nio.file.Paths; 
+import java.nio.file.Paths;  
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -8,8 +8,6 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -73,9 +71,9 @@ public class categoriaControllers {
 	@GetMapping
 	public ResponseEntity<List<CategoriaDTO>> findAll(
 			@RequestParam(value = "offset", required = false, defaultValue = "0") int pageNumber,
-			@RequestParam(value = "limit", required = false, defaultValue = "5") int pageSize) {
-		Pageable page = PageRequest.of(pageNumber, pageSize);
-		List<Category> cats = service.findAll(page);
+			@RequestParam(value = "limit", required = false, defaultValue = "10") int pageSize) {
+		//Pageable page = PageRequest.of(pageNumber, pageSize);
+		List<Category> cats = service.findAll();
 		List<CategoriaDTO> dtos = new ArrayList<>();
 		for (Category c : cats) {
 			CategoriaDTO dto = new CategoriaDTO();

@@ -8,7 +8,7 @@ import comciudad.dona.entity.Category;
 @Service
 
 public interface categoriaService {
-	public List<Category> findAll(Pageable page);
+	public List<Category> findAll();
 	public List<Category> finByNombre(String nombre,Pageable page); 
 	public Category findById(UUID id) ; 
 	public Category save(Category articulo, MultipartFile foto); 

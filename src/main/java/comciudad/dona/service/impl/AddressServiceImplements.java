@@ -53,7 +53,6 @@ public class AddressServiceImplements implements AddressService {
 			throw new GeneralServiceException(e.getMessage(), e);
 		}
 	}
-
 	@Override
 	public Address findById(UUID id) {
 		try {

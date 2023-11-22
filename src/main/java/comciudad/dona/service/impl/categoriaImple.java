@@ -116,9 +116,9 @@ public class categoriaImple implements categoriaService {
 
 	}
 	@Override
-	public List<Category> findAll(Pageable page) {
+	public List<Category> findAll() {
 		try {
-			List<Category> catego = repository.findAll(page).toList();
+			List<Category> catego = repository.findAll();
 			return catego;
 		} catch (ValidateServiceException | NoDataFoundException e) {
 			log.info(e.getMessage(), e);
