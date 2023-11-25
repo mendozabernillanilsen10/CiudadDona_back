@@ -89,7 +89,7 @@ public class companiaController {
 	ResponsibleConverters rc = new ResponsibleConverters();
 	@PostMapping(value = "/registers")
 	public ResponseEntity<WrapperResponse<RegisterCompany>>  register(
-    		 @RequestParam("Sucursal") String Sucursal,
+    		    @RequestParam("Sucursal") String Sucursal,
     		    @RequestParam("RazonSocial") String RazonSocial,
     		    @RequestParam("Ruc") String Ruc,
     		    @RequestParam("Email") String Email,
@@ -104,9 +104,7 @@ public class companiaController {
     		    @RequestParam("ResNumero_celular") String ResNumero_celular,
     		    @RequestParam("ResNumero_whatsapp") String ResNumero_whatsapp,
     		    @RequestParam("role_role") UUID  role_role
-
 			)
-	
     {
 		try {
 		        DefaultTransactionDefinition def = new DefaultTransactionDefinition();
@@ -154,8 +152,8 @@ public class companiaController {
 		    	    res.setCelular(ResNumero_celular);
 		    	    res.setWhatsapp(ResNumero_whatsapp);
 		    	    res.setCompany(compani);
-		    	    res.setName(ResNumero_whatsapp);
-		    	    res.setSurName(ResNumero_whatsapp);		    	    
+		    	    res.setName(Res_Nombre);
+		    	    res.setSurName(ResApellido);		    	    
 		    	    Responsible resInsert= resposableser.save(res);
 		    	    ResponsibleDTO responsableDto =rc.fromEntity(resInsert); 
 		    	    

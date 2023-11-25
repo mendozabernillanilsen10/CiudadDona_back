@@ -1,8 +1,8 @@
 package comciudad.dona.converters;
 
-import comciudad.dona.dtos.BrandDTO; 
+import comciudad.dona.dtos.BrandDTO;  
 import comciudad.dona.entity.Brand;
-import comciudad.dona.entity.Category;
+import comciudad.dona.entity.typeProduct;
 
 public class BrandConverters extends AbstractConverter<Brand,BrandDTO>{
 
@@ -11,7 +11,6 @@ public class BrandConverters extends AbstractConverter<Brand,BrandDTO>{
 		if (entity == null) return null;
 		return BrandDTO.builder()
 				.id(entity.getId())
-				.idCategoria(entity.getCategory().getId())
 				.nombre(entity.getName())
 				.build();
 	}
@@ -21,9 +20,9 @@ public class BrandConverters extends AbstractConverter<Brand,BrandDTO>{
 		Brand objet=new Brand();
 		objet.setName(dto.getNombre());
 		objet.setId(dto.getId());
-		Category categori = new Category();
-		categori.setId(dto.getIdCategoria());
-		objet.setCategory(categori);
+		typeProduct type = new typeProduct();
+		type.setId(dto.getIdtype());
+		objet.setTypeProduct(type);
 		return objet;
 		
 	}

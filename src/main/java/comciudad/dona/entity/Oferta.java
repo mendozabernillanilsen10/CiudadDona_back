@@ -1,10 +1,8 @@
 package comciudad.dona.entity;
 
-import java.util.Date;
+import java.math.BigDecimal; 
+import java.time.LocalDateTime;
 import java.util.UUID;
-
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -18,14 +16,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 @Setter
 @Getter
 @Builder
@@ -33,37 +28,35 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-@Table(name = "Product")
-public class Product {
+@Table(name="Oferta")
+public class Oferta {
 	@Id
 	@GeneratedValue
-	@Column(length = 16)
+	@Column(length=16)
 	private UUID id;
-
-	@Column(name = "Short_Description", nullable = false, columnDefinition = "TEXT")
-	private String shortDescription;
-
-	@Column(name = "activo", nullable = false)
-	private Boolean activo;
-
-	@Column(name = "Cualidad")
-	private String Cualidad;
 	
-	@Column(name = "fotoUrlPrincipal")
-	private String fotoUrlPrincipal;
-
+	@Column(name="Nombre", length = 300,nullable=false)
+	private String  Nombre;
+	
+	@Column(name = "price", nullable = false, columnDefinition = "DECIMAL(10,2)")
+	private Double price;
+	
+	@Column(name = "cantidad")
+	private BigDecimal cantidad;
+	
+	@Column(name="fechaIncio", nullable=false, updatable=false)
+	private LocalDateTime fechaIncio;
+	
+	@Column(name="fechafin", nullable=false, updatable=false)
+	private LocalDateTime fechafin;
+	
+	@Column(name="activo",nullable=false)
+	private Boolean activo;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idDescripcionAgua")
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-	@JoinColumn(name = "Brand")
-	private Brand brand;
-
-	@Column(name = "created_at", nullable = false, updatable = false)
-	@Temporal(TemporalType.TIMESTAMP)
-	@CreatedDate
-	private Date createdAt;
-	@Column(name = "updated_at", nullable = false)
-	@Temporal(TemporalType.TIMESTAMP)
-	@LastModifiedDate
-	private Date updatedAt;
+	private DescripcionAgua descripcionAgua;
+	
 
 }

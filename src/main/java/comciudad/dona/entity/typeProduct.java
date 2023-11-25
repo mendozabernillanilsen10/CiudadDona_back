@@ -1,6 +1,5 @@
 package comciudad.dona.entity;
 
-import java.math.BigDecimal; 
 import java.util.UUID;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -23,12 +22,13 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-@Table(name="liters")
-public class liters {
+@Table(name="typeProduct")
+public class typeProduct {
 	@Id
 	@GeneratedValue
 	@Column(length=16)
 	private UUID id;
-	@Column(precision = 6, scale = 3, nullable = false)
-	private BigDecimal cantidad;
+	
+	@Column(name="TipeProducName", length = 500,nullable=false)
+	private String  TipeProducName;
 }

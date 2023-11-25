@@ -1,7 +1,7 @@
 package comciudad.dona.converters;
-import comciudad.dona.dtos.ContainerTypeDTO;
-import comciudad.dona.entity.Category;
+import comciudad.dona.dtos.ContainerTypeDTO; 
 import comciudad.dona.entity.ContainerType;
+import comciudad.dona.entity.typeProduct;
 
 public class ContainerTypeConverter  extends  AbstractConverter<ContainerType , ContainerTypeDTO>{
 	@Override
@@ -9,7 +9,7 @@ public class ContainerTypeConverter  extends  AbstractConverter<ContainerType , 
 		if (entity == null) return null;
 		return ContainerTypeDTO.builder()
 				.id(entity.getId())
-				.idCategoria(entity.getCategory().getId())
+				.idtype(entity.getTypeProduct().getId())
 				.nombre(entity.getName())
 				.build();
 	}
@@ -19,9 +19,9 @@ public class ContainerTypeConverter  extends  AbstractConverter<ContainerType , 
 		ContainerType objet=new ContainerType();
 		objet.setName(dto.getNombre());
 		objet.setId(dto.getId());
-		Category categori = new Category();
-		categori.setId(dto.getIdCategoria());
-		objet.setCategory(categori);
+		typeProduct typeProduct = new typeProduct();
+		typeProduct.setId(dto.getIdtype());
+		objet.setTypeProduct(typeProduct);
 		return objet;
 	}
 

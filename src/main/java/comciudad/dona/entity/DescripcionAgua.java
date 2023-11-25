@@ -1,7 +1,9 @@
 package comciudad.dona.entity;
 
-import java.util.Date;  
+import java.math.BigDecimal; 
+import java.util.Date;
 import java.util.UUID;
+
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -29,30 +31,35 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "Store")
 @EntityListeners(AuditingEntityListener.class)
-public class Store {
+@Table(name = "DescripcionAgua")
+public class DescripcionAgua {
 	@Id
 	@GeneratedValue
 	@Column(length = 16)
 	private UUID id;
-	
-	@Column(name="name",nullable=false,length=300)
-	private String name ;
-
-	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "idCompany")
+	@JoinColumn(name = "idproduct")
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-	private Company company;
+	private Product product;
+
+	@Column(name = "stock", nullable = false)
+	private int stock;
+
+	@Column(name = "unidad", nullable = false)
+	private int unidad;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "idDistrito")
+	@JoinColumn(name = "idcontainerType")
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-	private ubdistrito idDistrito;
-	
-	@Column(name = "fotoUrl")
-	private String foto_url;
+	private ContainerType containerType;
+
+	@Column(name = "price", nullable = false, columnDefinition = "DECIMAL(10,2)")
+	private Double price;
+
+	@Column(precision = 6, scale = 3, nullable = false)
+	private BigDecimal cantidad;
+
 	
 	
 	@Column(name = "created_at", nullable = false, updatable = false)
@@ -63,7 +70,4 @@ public class Store {
 	@Temporal(TemporalType.TIMESTAMP)
 	@LastModifiedDate
 	private Date updatedAt;
-	@Column(name = "activo", nullable = false)
-	private Boolean activo;
-
 }

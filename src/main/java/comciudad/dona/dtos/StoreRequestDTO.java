@@ -1,7 +1,8 @@
 package comciudad.dona.dtos;
 
-import java.util.List; 
+import java.util.List;  
 import java.util.UUID;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,10 +17,9 @@ import lombok.Setter;
 public class StoreRequestDTO {
 	    private UUID id;
 	    private String nombre;
-	    private UUID categorId;
-	    private UUID subcatId;
 	    private UUID companId;
 	    private Long idDistrito;
+	    private String foto;
 	    private List<TimetableDTO> horarios;
 	    private List<CategoriaStoreDTO> categorias;
 

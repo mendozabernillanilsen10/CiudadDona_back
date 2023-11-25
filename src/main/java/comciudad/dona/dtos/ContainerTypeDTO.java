@@ -15,5 +15,5 @@ import lombok.Setter;
 public class ContainerTypeDTO {
 	private UUID id;
 	private String nombre ;
-	private UUID idCategoria;
+	private UUID idtype;
 }

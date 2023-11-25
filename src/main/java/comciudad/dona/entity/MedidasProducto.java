@@ -1,6 +1,9 @@
 package comciudad.dona.entity;
+
 import java.util.UUID;
+
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -22,8 +25,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-@Table(name="Brand")
-public class Brand {
+@Table(name="MedidasProducto")
+public class MedidasProducto {
 	@Id
 	@GeneratedValue
 	@Column(length=16)
@@ -31,6 +34,6 @@ public class Brand {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "IDtypeProduct")
 	private typeProduct typeProduct;
-	@Column(name="Name", length = 500,nullable=false)
-	private String Name;
+	@Column(name="nombre", length = 500,nullable=false)
+	private String nombre;
 }

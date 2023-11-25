@@ -1,5 +1,7 @@
 package comciudad.dona.dtos;
+
 import java.util.UUID;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,9 +12,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class BrandDTO {
+public class typeProductDto {
 	private UUID id;
-	private String nombre ;
-	private UUID idtype;
-	
+    private String typeProduc; // Cambiado a typeProduc para que coincida con el JSON
 }

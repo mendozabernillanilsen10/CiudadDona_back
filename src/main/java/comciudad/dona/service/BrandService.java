@@ -1,11 +1,11 @@
 package comciudad.dona.service;
 
-import java.util.List; 
+import java.util.List;  
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 import comciudad.dona.entity.Brand;
-import comciudad.dona.entity.Category;
+import comciudad.dona.entity.typeProduct;
 @Service
 public interface BrandService {
 	public List<Brand> findAll();
@@ -16,6 +16,6 @@ public interface BrandService {
 
 	public void delete(UUID id);
 
-	public List<Brand> finByIdUser(Category categori);
+	public List<Brand> finByIdUser(typeProduct typeProduct);
 
 }

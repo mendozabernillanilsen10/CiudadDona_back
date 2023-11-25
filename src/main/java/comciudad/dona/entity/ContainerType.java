@@ -32,8 +32,9 @@ public class ContainerType {
 	@Column(length=16)
 	private UUID id;
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "idcategory")
-	private Category category;
+	@JoinColumn(name = "IDtypeProduct")
+	private typeProduct typeProduct;
+	
 	@Column(name="Name", length = 500,nullable=false)
 	private String Name;
 }

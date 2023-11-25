@@ -6,11 +6,16 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import comciudad.dona.entity.Company;
 import comciudad.dona.entity.Store;
 import comciudad.dona.entity.Subcategory;
 
 public interface StoreRepository extends JpaRepository<Store, UUID> {
 
+	
+	List<Store> findBycompany(Company company);
+
+	
 	List<Store> findByidDistritoId(Long idDistrito);
 
 	  @Query("SELECT s FROM Store s " +

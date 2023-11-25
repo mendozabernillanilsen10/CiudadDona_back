@@ -12,8 +12,8 @@ public class CiudadDonaApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(CiudadDonaApplication.class, args);
 	}
-/*
-	@Bean
+
+	/*@Bean
 	public WebMvcConfigurer corsConfigurer() {
 		return new WebMvcConfigurer() {
 

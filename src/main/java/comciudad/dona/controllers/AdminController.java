@@ -5,12 +5,15 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,6 +22,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
+
+import comciudad.dona.dtos.CategoriaDTO;
 import comciudad.dona.dtos.CategoriaStoreDTO;
 import comciudad.dona.dtos.LoginRequest;
 import comciudad.dona.dtos.ResponseEmailDto;
@@ -74,15 +80,17 @@ public class AdminController {
 	@Autowired
 	SubCategoriStoreService substoricate;
 	@PostMapping("/AgregarTienda")
-	public ResponseEntity<TimetableDTO> create(@RequestParam(value = "nombre", required = false) String nombre,
-			@RequestParam(value = "file", required = false) MultipartFile foto,
+	public ResponseEntity<ResponseSuces> create(
+			@RequestParam(value = "nombre", required = false) String nombre,
+			@RequestParam("foto") MultipartFile foto,
 			@RequestParam(value = "CompanId", required = false) UUID CompanId,
 			@RequestParam(value = "id_distrito", required = false) Long id_distrito,
+		
 			@RequestPart("horarios") List<TimetableDTO> horarios,
 			@RequestPart("categorias") List<CategoriaStoreDTO> Categorias
 	) {
 		try {
-			/*
+
 			ResponseSuces categoriaGuardadaDTO = new ResponseSuces();
 			Store store = new Store();
 			store.setName(nombre);
@@ -136,23 +144,42 @@ public class AdminController {
 				}
 
 			}
-			if (storeRegister != null) {
-				categoriaGuardadaDTO.setMensaje("Registro Exitoso");
+			if (foto != null) {
+				categoriaGuardadaDTO.setMensaje("Registro Exitoso S");
 			} else {
 				categoriaGuardadaDTO.setMensaje("fallo al registro ");
 			}
-			*/
-			//return new WrapperResponse(true, "success", categoriaGuardadaDTO).createResponse(HttpStatus.OK);
-			return new WrapperResponse(true, "success", horarios).createResponse(HttpStatus.OK);
-
-		
+			
+			return new WrapperResponse(true, "success", categoriaGuardadaDTO).createResponse(HttpStatus.OK);
 		} catch (ValidateServiceException | NoDataFoundException e) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST); // Maneja el error de validación
+			throw new GeneralServiceException(e.getMessage(), e);
+			
+			
+			//return new ResponseEntity<>(HttpStatus.BAD_REQUEST); // Maneja el error de validación
 		} catch (GeneralServiceException e) {
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); // Maneja errores generales del servicio
+			throw new GeneralServiceException(e.getMessage(), e);
 		}
 	}
 
+	@GetMapping("/listaTiendaCompany/{idCompani}")
+	public ResponseEntity<List<CategoriaDTO>> listatiendacompany(
+			@PathVariable UUID idCompani) {
+		Company comew = new Company();
+		comew.setId(idCompani);
+		List<Store> cats = storeservice.lisByIdcompany(comew);
+		List<CategoriaDTO> dtos = new ArrayList<>();
+		for (Store c : cats) {
+			CategoriaDTO dto = new CategoriaDTO();
+			dto.setId(c.getId());
+			dto.setNombre(c.getName());
+			dto.setFoto_url(MvcUriComponentsBuilder.fromMethodName(StoreControllers.class, "serveFile", c.getFoto_url())
+					.build().toString());
+			dtos.add(dto);
+		}
+		return new WrapperResponse(true, "success", dtos).createResponse(HttpStatus.OK);
+	}
+	
+	
 	private Date parseTimeWithTimeZone(String timeWithTimeZone) {
 		if (timeWithTimeZone == null)
 			return null;

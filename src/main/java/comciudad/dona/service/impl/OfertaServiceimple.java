@@ -1,27 +1,29 @@
 package comciudad.dona.service.impl;
 
-import java.util.List;
+import java.util.List;  
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import comciudad.dona.entity.liters;
+
+import comciudad.dona.entity.Oferta;
 import comciudad.dona.exceptions.GeneralServiceException;
 import comciudad.dona.exceptions.NoDataFoundException;
 import comciudad.dona.exceptions.ValidateServiceException;
-import comciudad.dona.repository.LitersRepository;
-import comciudad.dona.service.LitersService;
+import comciudad.dona.repository.OfertaRepository;
+import comciudad.dona.service.OfertaService;
 import lombok.extern.slf4j.Slf4j;
-
 @Service
 @Slf4j
-public class LitersServiceImplements implements LitersService {
+public class OfertaServiceimple implements OfertaService {
+
 	@Autowired
-	LitersRepository repository;
+	private OfertaRepository repository;
+
 	@Override
-	public List<liters> findAll() {
+	public List<Oferta> findAll() {
 		try {
-			List<liters> compani = repository.findAll();
+			List<Oferta> compani = repository.findAll();
 			return compani;
 		} catch (ValidateServiceException | NoDataFoundException e) {
 			log.info(e.getMessage(), e);
@@ -33,9 +35,9 @@ public class LitersServiceImplements implements LitersService {
 		}
 	}
 	@Override
-	public liters findById(UUID id) {
+	public Oferta findById(UUID id) {
 		try {
-			liters existeRegistro = repository.findById(id)
+			Oferta existeRegistro = repository.findById(id)
 					.orElseThrow(() -> new NoDataFoundException("No Existe el Registro adrees"));
 			return existeRegistro;
 		} catch (ValidateServiceException | NoDataFoundException e) {
@@ -49,17 +51,23 @@ public class LitersServiceImplements implements LitersService {
 	}
 
 	@Override
-	public liters save(liters objet) {
+	public Oferta save(Oferta objet) {
 		try {
-			// AddressValid.save(adres);
+			//AddressValid.save(adres);
 			if (objet.getId() == null) {
-				liters nuevoRegistro = repository.save(objet);
+				objet.setActivo(true);
+				Oferta nuevoRegistro = repository.save(objet);
 				return nuevoRegistro;
 			}
-			liters existeRegistro = repository.findById(objet.getId())
+			Oferta existeRegistro = repository.findById(objet.getId())
 					.orElseThrow(() -> new NoDataFoundException("No Existe aseessel Registro"));
 			existeRegistro.setCantidad(objet.getCantidad());
+			existeRegistro.setFechafin(objet.getFechaIncio());
+			existeRegistro.setFechafin(objet.getFechafin());
+			existeRegistro.setNombre(objet.getNombre());
+			existeRegistro.setPrice(objet.getPrice());
 			repository.save(existeRegistro);
+			
 			return existeRegistro;
 		} catch (ValidateServiceException | NoDataFoundException e) {
 			log.info(e.getMessage(), e);
@@ -73,11 +81,10 @@ public class LitersServiceImplements implements LitersService {
 	@Override
 	public void delete(UUID id) {
 		try {
-			liters existeRegistro = repository.findById(id)
+			Oferta existeRegistro = repository.findById(id)
 					.orElseThrow(() -> new NoDataFoundException("No Existe el Registro"));
 			// existeRegistro.setActivo(false);
 			// repository.save(existeRegistro);
-
 			repository.delete(existeRegistro);
 		} catch (ValidateServiceException | NoDataFoundException e) {
 			log.info(e.getMessage(), e);

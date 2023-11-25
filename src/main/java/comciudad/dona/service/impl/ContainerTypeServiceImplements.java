@@ -1,13 +1,13 @@
 package comciudad.dona.service.impl;
 
-import java.util.List;
+import java.util.List; 
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import comciudad.dona.entity.Category;
 import comciudad.dona.entity.ContainerType;
+import comciudad.dona.entity.typeProduct;
 import comciudad.dona.exceptions.GeneralServiceException;
 import comciudad.dona.exceptions.NoDataFoundException;
 import comciudad.dona.exceptions.ValidateServiceException;
@@ -89,10 +89,11 @@ public class ContainerTypeServiceImplements  implements ContainerTypeService{
 			throw new GeneralServiceException(e.getMessage(), e);
 		}
 	}
+
 	@Override
-	public List<ContainerType> finByIdUser(Category categori) {
+	public List<ContainerType> finByIdUser(typeProduct typeProduct) {
 		try {
-			List<ContainerType> articulo = repository.findBycategory(categori);
+			List<ContainerType> articulo = repository.findBytypeProduct(typeProduct);
 			return articulo;
 		} catch (ValidateServiceException | NoDataFoundException e) {
 			log.info(e.getMessage(), e);

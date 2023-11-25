@@ -1,6 +1,6 @@
 package comciudad.dona.controllers;
 
-import java.util.List; 
+import java.util.List;  
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import comciudad.dona.converters.ContainerTypeConverter;
 import comciudad.dona.dtos.BrandDTO;
 import comciudad.dona.dtos.ContainerTypeDTO;
-import comciudad.dona.entity.Category;
 import comciudad.dona.entity.ContainerType;
+import comciudad.dona.entity.typeProduct;
 import comciudad.dona.service.ContainerTypeService;
 import comciudad.dona.service.categoriaService;
 import comciudad.dona.utils.WrapperResponse;
@@ -41,15 +41,16 @@ public class ContainerTypeControllers {
 		List<ContainerTypeDTO> ingresosDTO = converter.fromEntity(ingresos);
 		return new WrapperResponse(true, "success", ingresosDTO).createResponse(HttpStatus.OK);
 	}
-	@GetMapping(value = "/listarPorCsategoria/{idCategoria}")
+	@GetMapping(value = "/listarPorCategoria/{idCategoria}")
 	public ResponseEntity<List<BrandDTO>> findAll(
 			@PathVariable("idCategoria") UUID idCategoria) {
-		Category categori = serviC.findById(idCategoria);
-		List<ContainerType> ingresos = service.finByIdUser(categori);
+		typeProduct typeProduct = new typeProduct();
+		typeProduct.setId(idCategoria);
+		List<ContainerType> ingresos = service.finByIdUser(typeProduct);
 		List<ContainerTypeDTO> ingresosDTO = converter.fromEntity(ingresos);
 		return new WrapperResponse(true, "success", ingresosDTO).createResponse(HttpStatus.OK);
 	}
-	
+
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<WrapperResponse<ContainerTypeDTO>> findById(@PathVariable("id") UUID id) {
 		ContainerType ingreso = service.findById(id);

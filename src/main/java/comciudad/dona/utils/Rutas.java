@@ -11,6 +11,6 @@ public class Rutas {
     public static final String IMG_DISTRITO = "Img_distrito";
     public static final String IMG_SUB_CATEGORIA = "ImgSubCategoria";
     public static final String IMG_STORE  = "Img_store";
-    
+    public static final String IMG_PRODUCT  = "Img_product";
 	
 }

@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import comciudad.dona.entity.Category;
+import comciudad.dona.entity.Company;
 import comciudad.dona.entity.Store;
 import comciudad.dona.entity.Subcategory;
 import comciudad.dona.exceptions.GeneralServiceException;
@@ -69,6 +70,28 @@ public class StoreServiceImplements implements StoreService {
 		return repository1w.findDistinctCategoriesByDistrito(idDistrito);
 	}
 
+	
+	
+	@Override
+	public List<Store> lisByIdcompany(Company company) {
+		try {
+			List<Store> catego = repository.findBycompany(company);
+			return catego;
+		} catch (ValidateServiceException | NoDataFoundException e) {
+			log.info(e.getMessage(), e);
+			throw e;
+		} catch (Exception e) {
+			log.error(e.getMessage());
+
+			throw new GeneralServiceException(e.getMessage(), e);
+
+		}
+	}
+	
+	
+	
+	
+	
 	@Override
 	public List<Store> findAll(Pageable page) {
 		// TODO Auto-generated method stub
@@ -188,5 +211,7 @@ public class StoreServiceImplements implements StoreService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	
 
 }

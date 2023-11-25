@@ -45,24 +45,5 @@ public class PhoneControllers {
 		return new WrapperResponse(true, "success", articulosDTO).createResponse(HttpStatus.OK);
 	}
 	
-	
-
-	/*
-	 * F
-	 * 
-	 * @PostMapping(value = "/registers") public ResponseEntity<PhoneDTO> create(
-	 * 
-	 * @RequestParam("IdPersona") UUID idPersona,
-	 * 
-	 * @RequestParam("celular") String celular,
-	 * 
-	 * @RequestParam("whatsapp") String whatsapp ) { Person person =
-	 * ser.findById(idPersona); Phone phone = new Phone();
-	 * phone.setCelular(celular); phone.setWhatsapp(whatsapp);
-	 * phone.setPerson(person); // Asocia el teléfono con la persona obtenida. Phone
-	 * newPhone = service.save(phone); PhoneDTO phoneDTO =
-	 * converter.fromEntity(newPhone); return new WrapperResponse(true, "Éxito",
-	 * phoneDTO).createResponse(HttpStatus.CREATED); }
-	 */
 
 }

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import comciudad.dona.entity.Category;
+import comciudad.dona.entity.Company;
 import comciudad.dona.entity.Store;
 import comciudad.dona.entity.Subcategory;
 @Service
@@ -20,7 +21,8 @@ public interface StoreService {
 	public List<Subcategory> obtenerSubcategoriasPorTiendaDistritoYCategoria(Long idDistrito, UUID idCategoria) ;
 	public List<Store> obtenerTiendasPorDistritoYCategoria(Long idDistrito, UUID idCategoria);
 	
-
+	public List<Store>  lisByIdcompany(Company company);
+	
 	public List<Store> obtenerTiendasPorDistrito(Long pIdDistrito,
 			UUID pIdCategoria ,UUID pIdSubcategoria);
 }
