@@ -41,9 +41,9 @@ public class ContainerTypeControllers {
 		List<ContainerTypeDTO> ingresosDTO = converter.fromEntity(ingresos);
 		return new WrapperResponse(true, "success", ingresosDTO).createResponse(HttpStatus.OK);
 	}
-	@GetMapping(value = "/listarPorCategoria/{idCategoria}")
+	@GetMapping(value = "/listartipo/{idTipo}")
 	public ResponseEntity<List<BrandDTO>> findAll(
-			@PathVariable("idCategoria") UUID idCategoria) {
+			@PathVariable("idTipo") UUID idCategoria) {
 		typeProduct typeProduct = new typeProduct();
 		typeProduct.setId(idCategoria);
 		List<ContainerType> ingresos = service.finByIdUser(typeProduct);

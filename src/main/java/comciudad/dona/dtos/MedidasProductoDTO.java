@@ -7,15 +7,12 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 @Builder
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ImagesProductDto {
+public class MedidasProductoDTO {
 	private UUID id;
-    private String foto_url;
-	private UUID iddetalle;
-
+	private String nombre ;
 }

@@ -78,6 +78,8 @@ public class Brandcontroller {
 			BrandDTO ingresoReturn = converter.fromEntity(createIngreso);
 			ingresoReturnList.add(ingresoReturn);
 		}
+		
+		
 		return new WrapperResponse<>(true, "success", ingresoReturnList).createResponse(HttpStatus.CREATED);
 	}
 	@DeleteMapping(value = "/{id}")

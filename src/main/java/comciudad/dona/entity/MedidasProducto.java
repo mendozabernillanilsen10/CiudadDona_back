@@ -31,9 +31,8 @@ public class MedidasProducto {
 	@GeneratedValue
 	@Column(length=16)
 	private UUID id;
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "IDtypeProduct")
-	private typeProduct typeProduct;
+
+
 	@Column(name="nombre", length = 500,nullable=false)
 	private String nombre;
 }

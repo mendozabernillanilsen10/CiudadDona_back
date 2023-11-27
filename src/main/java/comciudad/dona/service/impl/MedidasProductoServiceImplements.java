@@ -1,26 +1,29 @@
 package comciudad.dona.service.impl;
 
-import java.util.List;  
+import java.util.List;
 import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import comciudad.dona.entity.typeProduct;
-import comciudad.dona.entity.Brand;
+import comciudad.dona.entity.ContainerType;
+import comciudad.dona.entity.MedidasProducto;
 import comciudad.dona.exceptions.GeneralServiceException;
 import comciudad.dona.exceptions.NoDataFoundException;
 import comciudad.dona.exceptions.ValidateServiceException;
-import comciudad.dona.repository.BrandRepository;
-import comciudad.dona.service.BrandService;
+import comciudad.dona.repository.MedidasProductoRepository;
+import comciudad.dona.service.MedidasProductoService;
 import lombok.extern.slf4j.Slf4j;
+
 @Service
 @Slf4j
-public class BrandServiceImplement  implements BrandService{
+public class MedidasProductoServiceImplements implements MedidasProductoService {
 	@Autowired
-	BrandRepository repository;
+	private MedidasProductoRepository repository;
+
 	@Override
-	public List<Brand> findAll() {
+	public List<MedidasProducto> findAll() {
 		try {
-			List<Brand> compani = repository.findAll();
+			List<MedidasProducto> compani = repository.findAll();
 			return compani;
 		} catch (ValidateServiceException | NoDataFoundException e) {
 			log.info(e.getMessage(), e);
@@ -31,11 +34,12 @@ public class BrandServiceImplement  implements BrandService{
 			throw new GeneralServiceException(e.getMessage(), e);
 		}
 	}
+
 	@Override
-	public Brand findById(UUID id) {
+	public MedidasProducto findById(UUID id) {
 		try {
-			Brand existeRegistro = repository.findById(id)
-					.orElseThrow(() -> new NoDataFoundException("No Existe el Registro"));
+			MedidasProducto existeRegistro = repository.findById(id)
+					.orElseThrow(() -> new NoDataFoundException("No Existe el Registro adrees"));
 			return existeRegistro;
 		} catch (ValidateServiceException | NoDataFoundException e) {
 			log.info(e.getMessage(), e);
@@ -46,17 +50,18 @@ public class BrandServiceImplement  implements BrandService{
 			throw new GeneralServiceException(e.getMessage(), e);
 		}
 	}
+
 	@Override
-	public Brand save(Brand objet) {
+	public MedidasProducto save(MedidasProducto objet) {
 		try {
-			//AddressValid.save(adres);
+			// AddressValid.save(adres);
 			if (objet.getId() == null) {
-				Brand nuevoRegistro = repository.save(objet);
+				MedidasProducto nuevoRegistro = repository.save(objet);
 				return nuevoRegistro;
 			}
-			Brand existeRegistro = repository.findById(objet.getId())
+			MedidasProducto existeRegistro = repository.findById(objet.getId())
 					.orElseThrow(() -> new NoDataFoundException("No Existe aseessel Registro"));
-			existeRegistro.setName(objet.getName());
+			existeRegistro.setNombre(objet.getNombre());
 			repository.save(existeRegistro);
 			return existeRegistro;
 		} catch (ValidateServiceException | NoDataFoundException e) {
@@ -67,10 +72,11 @@ public class BrandServiceImplement  implements BrandService{
 			throw new GeneralServiceException(e.getMessage(), e);
 		}
 	}
+
 	@Override
 	public void delete(UUID id) {
 		try {
-			Brand existeRegistro = repository.findById(id)
+			MedidasProducto existeRegistro = repository.findById(id)
 					.orElseThrow(() -> new NoDataFoundException("No Existe el Registro"));
 			// existeRegistro.setActivo(false);
 			// repository.save(existeRegistro);
@@ -82,19 +88,9 @@ public class BrandServiceImplement  implements BrandService{
 			log.error(e.getMessage());
 			throw new GeneralServiceException(e.getMessage(), e);
 		}
-		
 	}
-	@Override
-	public List<Brand> finByIdUser(typeProduct typeProduct) {
-		try {
-			List<Brand> articulo = repository.findBytypeProduct(typeProduct);
-			return articulo;
-		} catch (ValidateServiceException | NoDataFoundException e) {
-			log.info(e.getMessage(), e);
-			throw e;
-		} catch (Exception e) {
-			log.error(e.getMessage());
-			throw new GeneralServiceException(e.getMessage(), e);
-		}
-	}
+
+
+	
+
 }

@@ -79,6 +79,8 @@ public class AdminController {
 	CategoriStoreService categoriaServicestory;
 	@Autowired
 	SubCategoriStoreService substoricate;
+	
+	
 	@PostMapping("/AgregarTienda")
 	public ResponseEntity<ResponseSuces> create(
 			@RequestParam(value = "nombre", required = false) String nombre,

@@ -1,4 +1,5 @@
 package comciudad.dona.dtos;
+import java.io.Serializable;
 import java.math.BigDecimal; 
 import java.util.UUID;
 
@@ -12,7 +13,11 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class OfertaDto {
+public class OfertaDto implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private UUID id;
 	private UUID idDescripcion;
 
@@ -22,4 +27,8 @@ public class OfertaDto {
     private String fechaIncio;
     private String fechafin;
     private Boolean activo;
+    
+    
+    
+    
 }

@@ -1,9 +1,7 @@
 package comciudad.dona.entity;
 
-import java.math.BigDecimal; 
 import java.util.Date;
 import java.util.UUID;
-
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -46,21 +44,29 @@ public class DescripcionAgua {
 	@Column(name = "stock", nullable = false)
 	private int stock;
 
-	@Column(name = "unidad", nullable = false)
-	private int unidad;
+	@Column(name = "unidadPaquete", nullable = true)
+	private int unidadPaquete;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "idcontainerType")
+	@JoinColumn(name = "idcontainerType" , nullable = true)
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	private ContainerType containerType;
+
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idMedidasProducto", nullable = true) 
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	private MedidasProducto medidasProducto;
+	
 
 	@Column(name = "price", nullable = false, columnDefinition = "DECIMAL(10,2)")
 	private Double price;
 
-	@Column(precision = 6, scale = 3, nullable = false)
-	private BigDecimal cantidad;
+	@Column(name = "unidadMedida",nullable = false)
+	private String unidadMedida;
 
-	
+	@Column(name="DetalleEnbase", nullable = true)
+	private String DetalleEnbase;
 	
 	@Column(name = "created_at", nullable = false, updatable = false)
 	@Temporal(TemporalType.TIMESTAMP)

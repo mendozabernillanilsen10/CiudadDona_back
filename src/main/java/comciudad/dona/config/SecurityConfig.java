@@ -52,6 +52,7 @@ public class SecurityConfig {
 						"/v1/typeProduct/**",
 						"/v1/SubCategoria/**",
 						"/v1/marcas/**",
+						"/v1/MedidasProducto/**",
 						"/v1/TipoEnvase/**",
 						"/v1/litros/**",
 						"/v1/Store/**",

@@ -9,7 +9,9 @@ public class ImageProductConverters extends AbstractConverter<ImagesProduct, Ima
 	public ImagesProductDto fromEntity(ImagesProduct entity) {
 		if (entity == null)
 			return null;
-		return ImagesProductDto.builder().id(entity.getId()).foto_url(entity.getFoto_url()).build();
+		return ImagesProductDto.builder()
+				.id(entity.getId())
+				.foto_url(entity.getFoto_url()).build();
 	}
 	
 	@Override
@@ -20,7 +22,7 @@ public class ImageProductConverters extends AbstractConverter<ImagesProduct, Ima
 		objet.setId(dto.getId());
 		objet.setFoto_url(dto.getFoto_url());
 		DescripcionAgua product = new DescripcionAgua();
-		product.setId(dto.getProducto());
+		product.setId(dto.getIddetalle());
 		objet.setDescripcionAgua(product);
 		return objet;
 	}

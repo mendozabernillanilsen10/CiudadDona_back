@@ -55,7 +55,7 @@ public class ImageProductControllers {
 			@RequestPart("ListaImg") List<MultipartFile> foto) {
 		try {
 			ImagesProductDto ImgProduc = new ImagesProductDto();
-			ImgProduc.setProducto(productId);
+			ImgProduc.setIddetalle(productId);
 
 			ImagesProduct createIngreso = service.save(converter.fromDTO(ImgProduc), foto);
 			ImagesProductDto ingresoReturn = converter.fromEntity(createIngreso);
