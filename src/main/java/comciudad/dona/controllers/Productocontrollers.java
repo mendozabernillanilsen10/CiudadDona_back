@@ -1,6 +1,6 @@
 package comciudad.dona.controllers;
 
-import java.nio.file.Paths;
+import java.nio.file.Paths; 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -24,7 +24,7 @@ import comciudad.dona.converters.DescripcionAguaConvertes;
 import comciudad.dona.converters.ImageProductConverters;
 import comciudad.dona.converters.OfertaConverters;
 import comciudad.dona.converters.productConverters;
-import comciudad.dona.dtos.ImagesProductDto;
+
 import comciudad.dona.dtos.OfertaDto;
 import comciudad.dona.dtos.descripcionAguaDto;
 import comciudad.dona.dtos.imgDesdcripcionDto;
@@ -83,7 +83,7 @@ public class Productocontrollers {
 			typeProduct tipo = serviceP.findById(ingresoDTO.getId_tipoproducto());
 			switch (tipo.getTipeProducName()) {
 			case "Agua Mineral":
-			case "agua de mesa":
+			case "Agua de Mesa":
 				Brand marca = new Brand();
 				Brand nuevaMarca = new Brand();
 				typeProduct typeProduct = new typeProduct();
