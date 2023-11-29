@@ -38,7 +38,6 @@ public class categoriaImple implements categoriaService {
 	@Autowired
 	private fileService servicefile;
 	RandomStringGenerator x = new RandomStringGenerator();
-	String otp = x.generate(6);
 
 
 	@Override
@@ -57,7 +56,7 @@ public class categoriaImple implements categoriaService {
 					String previousPhotoUrl = existingRecord.getFoto_url();
 
 					if (previousPhotoUrl != null) {
-						servicefile.deleteFoto(previousPhotoUrl);
+						servicefile.deleteFoto(previousPhotoUrl,Rutas.IMG_PRODUCT);
 						String categoryFolder = Rutas.IMG_CATEGORIA;
 						Path folderPath = Paths.get(uploadPath, categoryFolder);
 						Path filePath = folderPath.resolve(previousPhotoUrl);
@@ -67,6 +66,7 @@ public class categoriaImple implements categoriaService {
 						try (InputStream inputStream = file.getInputStream()) {
 							Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
 						}
+						
 						existingRecord.setId(com.getId());
 						existingRecord.setFoto_url(previousPhotoUrl);
 						existingRecord.setName(com.getName());
@@ -76,6 +76,7 @@ public class categoriaImple implements categoriaService {
 						existingRecord.setId(com.getId());
 						String categoryFolder = Rutas.IMG_CATEGORIA;
 						String fileName = x.generate(8) + ".png";
+						
 						Path folderPath = Paths.get(uploadPath, categoryFolder);
 						Path filePath = folderPath.resolve(fileName);
 						if (!Files.exists(folderPath)) {

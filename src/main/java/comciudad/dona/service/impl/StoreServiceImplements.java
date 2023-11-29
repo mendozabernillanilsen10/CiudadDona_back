@@ -118,7 +118,7 @@ public class StoreServiceImplements implements StoreService {
 							.orElseThrow(() -> new NoDataFoundException("No Existe el Registro"));
 					String previousPhotoUrl = existingRecord.getFoto_url();
 					if (previousPhotoUrl != null) {
-						servicefile.deleteFoto(previousPhotoUrl);
+						servicefile.deleteFoto(previousPhotoUrl,Rutas.IMG_STORE);
 						String categoryFolder = Rutas.IMG_STORE;
 						Path folderPath = Paths.get(uploadPath, categoryFolder);
 						Path filePath = folderPath.resolve(previousPhotoUrl);

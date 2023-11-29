@@ -49,13 +49,25 @@ public class Product {
 	@Column(name = "Cualidad")
 	private String Cualidad;
 	
-	@Column(name = "fotoUrlPrincipal")
+	@Column(name = "fotoUrlPrincipal", nullable = false, columnDefinition = "TEXT")
 	private String fotoUrlPrincipal;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	@JoinColumn(name = "ID_Store")
+	private Store store;
+	
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	@JoinColumn(name = "Brand")
 	private Brand brand;
+	
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	@JoinColumn(name = "idtypeProduct")
+	private typeProduct idtypeProduct;
 	
 	@Column(name = "created_at", nullable = false, updatable = false)
 	@Temporal(TemporalType.TIMESTAMP)

@@ -68,6 +68,10 @@ public class DescripcionAgua {
 	@Column(name="DetalleEnbase", nullable = true)
 	private String DetalleEnbase;
 	
+	@Column(name = "activo", nullable = false)
+	private Boolean activo;
+	
+	
 	@Column(name = "created_at", nullable = false, updatable = false)
 	@Temporal(TemporalType.TIMESTAMP)
 	@CreatedDate

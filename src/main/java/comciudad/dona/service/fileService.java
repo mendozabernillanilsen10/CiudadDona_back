@@ -7,5 +7,5 @@ public interface fileService {
 	 void init();
 	 public Resource loadAsResource(String filename);
 	 public Path load(String filename);
-	 public void deleteFoto(String fotoUrl);
+	 public void deleteFoto(String fotoUrl , String cartpeta);
 }

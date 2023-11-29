@@ -1,10 +1,9 @@
 package comciudad.dona.service;
 
-import java.util.List;
+import java.util.List; 
 import java.util.UUID;
 
-import org.springframework.web.multipart.MultipartFile;
-
+import comciudad.dona.entity.DescripcionAgua;
 import comciudad.dona.entity.ImagesProduct;
 
 
@@ -13,7 +12,10 @@ public interface ImagesProductService {
 
 	public ImagesProduct findById(UUID id);
 
-	public ImagesProduct save(ImagesProduct objet, List<MultipartFile> file);
+	public ImagesProduct save(ImagesProduct objet);
 
 	public void delete(UUID id);
+	
+	public List<ImagesProduct> listaDescripcionProducto(DescripcionAgua objet);
+
 }

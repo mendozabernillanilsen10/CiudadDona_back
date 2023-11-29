@@ -1,22 +1,27 @@
 package comciudad.dona.converters;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+
+import java.util.UUID;
+
 import comciudad.dona.dtos.OfertaDto;
 import comciudad.dona.entity.DescripcionAgua;
 import comciudad.dona.entity.Oferta;
 public class OfertaConverters  extends AbstractConverter<Oferta,OfertaDto>{
-    private static final DateTimeFormatter dateTimeFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 	@Override
 	public OfertaDto fromEntity(Oferta entity) {
 		if (entity == null) return null;
+		UUID  idMedides = 
+	    		(entity.getDescripcionAgua()!= null
+	    		&& entity.getDescripcionAgua().getId() != null)
+	            ? entity.getDescripcionAgua().getId()
+	            : null;
 		return OfertaDto.builder()
 				 	.id(entity.getId())
-	                .fechaIncio(String.valueOf(entity.getFechaIncio()))
-	                .fechafin(String.valueOf(entity.getFechafin()))
 	                .cantidad(entity.getCantidad())
 	                .price(entity.getPrice())
 	                .nombre(entity.getNombre())
-	               // .idDescripcion(entity.getDescripcionAgua().getId())
+	                .id_des(idMedides)
+	                .fechaIncio(entity.getFechaIncio())
+	                .fechafin(entity.getFechafin())
 	                .activo(entity.getActivo())
 	                .build();
 	}
@@ -31,9 +36,10 @@ public class OfertaConverters  extends AbstractConverter<Oferta,OfertaDto>{
         oferta.setActivo(dto.getActivo());
         oferta.setCantidad(dto.getCantidad());
         DescripcionAgua descripcionAgua = new DescripcionAgua();
-        descripcionAgua.setId(dto.getIdDescripcion());
-        oferta.setFechaIncio(LocalDateTime.parse(dto.getFechaIncio(), dateTimeFormat));
-        oferta.setFechafin(LocalDateTime.parse(dto.getFechafin(), dateTimeFormat));
+        descripcionAgua.setId(dto.getId_des());
+        oferta.setFechaIncio(dto.getFechaIncio());
+        oferta.setFechafin(dto.getFechafin());
+        oferta.setDescripcionAgua(descripcionAgua);
 		return oferta;
 	}
 }

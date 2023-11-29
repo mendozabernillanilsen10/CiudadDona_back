@@ -1,4 +1,4 @@
-package comciudad.dona.controllers;
+package comciudad.dona.dtos;
 import java.io.Serializable;
 import java.util.UUID;
 import lombok.AllArgsConstructor;

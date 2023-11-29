@@ -1,21 +1,21 @@
 package comciudad.dona.service.impl;
 
-import java.io.InputStream;  
+import java.io.IOException; 
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.UUID;
 
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import comciudad.dona.entity.DescripcionAgua;
 import comciudad.dona.entity.ImagesProduct;
+
 import comciudad.dona.exceptions.GeneralServiceException;
 import comciudad.dona.exceptions.NoDataFoundException;
 import comciudad.dona.exceptions.ValidateServiceException;
@@ -32,11 +32,20 @@ public class ImagesProductServiceImplements implements ImagesProductService {
 
 	@Autowired
 	private ImagesProductRepository repository;
+	
 	@Value("${spring.servlet.multipart.location}")
 	private String uploadPath;
 	@Autowired
 	private fileService servicefile;
 	RandomStringGenerator x = new RandomStringGenerator();
+	private String saveImageToFileSystem(byte[] imageBytes) throws IOException {
+		String categoryFolder = Rutas.IMG_PRODUCT;
+		String fileName = x.generate(20) + ".png";
+		Path folderPath = Paths.get(uploadPath, categoryFolder);
+		Path filePath = folderPath.resolve(fileName);
+		Files.write(filePath, imageBytes);
+		return fileName;
+	}
 
 	@Override
 	public List<ImagesProduct> findAll() {
@@ -68,46 +77,31 @@ public class ImagesProductServiceImplements implements ImagesProductService {
 		}
 	}
 	@Override
-	public ImagesProduct save(ImagesProduct objet, List<MultipartFile> files) {
+	public ImagesProduct save(ImagesProduct articulo) {
 	    try {
+	    	if (articulo.getId() == null) {
+				String encodedImage = articulo.getFoto_url().split(",")[1];
+				byte[] decodedImage = Base64.decodeBase64(encodedImage);
+				articulo.setFoto_url(saveImageToFileSystem(decodedImage));
+				ImagesProduct nuevoRegistro = repository.save(articulo);
+				return nuevoRegistro;
+			}
+	    	ImagesProduct existeRegistro = repository.findById(articulo.getId())
+					.orElseThrow(() -> new NoDataFoundException("No existe el registro"));
+			String previousPhotoUrl = existeRegistro.getFoto_url();
 
-	    	DescripcionAgua product = objet.getDescripcionAgua();
-	        if (files.isEmpty()) {
-	            throw new Exception("ERROR: no se pudo crear la carpeta ");
-	        }
-
-	        List<ImagesProduct> newRecords = new ArrayList<>();
-
-	        for (MultipartFile file : files) {
-	            ImagesProduct existingRecord = new ImagesProduct(); // Nueva instancia para cada archivo
-
-	            if (objet.getId() != null) {
-	                existingRecord = repository.findById(objet.getId())
-	                        .orElseThrow(() -> new NoDataFoundException("No Existe el Registro"));
-
-	                String previousPhotoUrl = existingRecord.getFoto_url();
-
-	                if (previousPhotoUrl != null) {
-	                    servicefile.deleteFoto(previousPhotoUrl);
-	                }
-	            }
-	            String categoryFolder = Rutas.IMG_PRODUCT;
-	            String fileName = x.generate(18) + ".png";
-	            Path folderPath = Paths.get(uploadPath, categoryFolder);
-	            Path filePath = folderPath.resolve(fileName);
-	            if (!Files.exists(folderPath)) {
-	                servicefile.init();
-	            }
-	            try (InputStream inputStream = file.getInputStream()) {
-	                Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
-	            }
-	            existingRecord.setId(null); // Para asegurarse de que sea una nueva entidad
-	            existingRecord.setDescripcionAgua(product);
-	            existingRecord.setFoto_url(fileName);
-	            newRecords.add(repository.save(existingRecord));
-	        }
-	        // Puedes retornar la lista de nuevas entidades creadas si es necesario
-	        return newRecords.isEmpty() ? null : newRecords.get(0);
+			if (previousPhotoUrl != null) {
+				servicefile.deleteFoto(previousPhotoUrl, Rutas.IMG_PRODUCT);
+				String encodedImage = articulo.getFoto_url().split(",")[1];
+				byte[] decodedImage = Base64.decodeBase64(encodedImage);
+				articulo.setFoto_url(saveImageToFileSystem(decodedImage));
+				repository.save(existeRegistro);
+			}
+			String encodedImage = articulo.getFoto_url().split(",")[1];
+			byte[] decodedImage = Base64.decodeBase64(encodedImage);
+			articulo.setFoto_url(saveImageToFileSystem(decodedImage));
+			repository.save(existeRegistro);
+			return existeRegistro;
 	    } catch (ValidateServiceException | NoDataFoundException e) {
 	        log.info(e.getMessage(), e);
 	        throw e;
@@ -126,7 +120,7 @@ public class ImagesProductServiceImplements implements ImagesProductService {
 			String previousPhotoUrl = existeRegistro.getFoto_url();
 
 			if (previousPhotoUrl != null) {
-				servicefile.deleteFoto(previousPhotoUrl);
+				servicefile.deleteFoto(previousPhotoUrl,Rutas.IMG_PRODUCT);
 			}
 			// existeRegistro.setActivo(false);
 			// repository.save(existeRegistro);
@@ -136,6 +130,21 @@ public class ImagesProductServiceImplements implements ImagesProductService {
 			throw e;
 		} catch (Exception e) {
 			log.error(e.getMessage());
+			throw new GeneralServiceException(e.getMessage(), e);
+		}
+	}
+
+	@Override
+	public List<ImagesProduct> listaDescripcionProducto(DescripcionAgua objet) {
+		try {
+			List<ImagesProduct> catego = repository.findBydescripcionAgua(objet);
+			return catego;
+		} catch (ValidateServiceException | NoDataFoundException e) {
+			log.info(e.getMessage(), e);
+			throw e;
+		} catch (Exception e) {
+			log.error(e.getMessage());
+
 			throw new GeneralServiceException(e.getMessage(), e);
 		}
 	}

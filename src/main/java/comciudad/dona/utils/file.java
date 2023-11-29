@@ -45,9 +45,9 @@ public class file implements fileService {
 	   }
    }
     @Override
-	public void deleteFoto(String fotoUrl) {
+	public void deleteFoto(String fotoUrl , String carpeta) {
 		if (fotoUrl != null) {
-			Path filePath = Paths.get(uploadPath, fotoUrl);
+			Path filePath = Paths.get(uploadPath, carpeta, fotoUrl);
 			try {
 				Files.deleteIfExists(filePath);
 			} catch (IOException e) {

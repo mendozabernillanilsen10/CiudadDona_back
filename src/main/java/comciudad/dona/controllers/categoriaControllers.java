@@ -104,7 +104,8 @@ public class categoriaControllers {
 	}
 
 	@PostMapping
-	public ResponseEntity<CategoriaDTO> create(@RequestParam("nombre") String nombre,
+	public ResponseEntity<CategoriaDTO> create(
+			@RequestParam("nombre") String nombre,
 			@RequestParam("foto") MultipartFile foto) {
 		try {
 			Category categoria = new Category();

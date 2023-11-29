@@ -37,6 +37,8 @@ dependencies {
 	// https://mvnrepository.com/artifact/org.imgscalr/imgscalr-lib
   implementation group: 'org.imgscalr', name: 'imgscalr-lib', version: '4.2'
 	
+
+	
 }
 
 tasks.named('test') {

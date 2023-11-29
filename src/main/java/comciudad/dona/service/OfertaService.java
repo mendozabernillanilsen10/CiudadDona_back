@@ -1,10 +1,11 @@
 package comciudad.dona.service;
 
-import java.util.List;
+import java.util.List; 
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
+import comciudad.dona.entity.DescripcionAgua;
 import comciudad.dona.entity.Oferta;
 @Service
 public interface OfertaService {
@@ -16,5 +17,6 @@ public interface OfertaService {
 
 	public void delete(UUID id);
 	
+	public List<Oferta> listaDescripcionProducto(DescripcionAgua objet);
 	
 }

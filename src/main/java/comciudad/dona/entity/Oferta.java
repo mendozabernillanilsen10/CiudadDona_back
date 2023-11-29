@@ -1,7 +1,7 @@
 package comciudad.dona.entity;
 
-import java.math.BigDecimal; 
-import java.time.LocalDateTime;
+import java.math.BigDecimal;  
+import java.util.Date;
 import java.util.UUID;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -35,22 +35,22 @@ public class Oferta {
 	@Column(length=16)
 	private UUID id;
 	
-	@Column(name="Nombre", length = 300,nullable=false)
+
+	@Column(name="Nombre", length = 300)
 	private String  Nombre;
 	
-	@Column(name = "price", nullable = false, columnDefinition = "DECIMAL(10,2)")
+	@Column(name = "price", columnDefinition = "DECIMAL(10,2)")
 	private Double price;
 	
 	@Column(name = "cantidad")
 	private BigDecimal cantidad;
 	
-	@Column(name="fechaIncio", nullable=false, updatable=false)
-	private LocalDateTime fechaIncio;
-	
-	@Column(name="fechafin", nullable=false, updatable=false)
-	private LocalDateTime fechafin;
-	
-	@Column(name="activo",nullable=false)
+	@Column(name = "fechaIncio", nullable = false, updatable = false)
+    private Date fechaIncio;
+	@Column(name = "fechafin", nullable = false, updatable = false)
+    private Date fechafin;
+
+	@Column(name="activo")
 	private Boolean activo;
 	
 	@ManyToOne(fetch = FetchType.LAZY)

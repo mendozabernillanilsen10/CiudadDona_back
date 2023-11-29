@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
-import comciudad.dona.controllers.imgDesdcripcionDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,14 +22,18 @@ public class descripcionAguaDto implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	private UUID id;
+	private UUID idProducto;
     private UUID id_Envase;
+    private String tipo_ensabase;
     private int stok;
     private int unidadPaquete;
-    private UUID tipoenbase;// containertype
     private UUID idmedidaProducto;
+    private String NombreMedida;
+    
     private Double price;
     private String  unidadMedida;
     private String detalleenvase;
     private List<OfertaDto>oferta;
+	private Boolean activo;
     private List<imgDesdcripcionDto> imgDesdcripcion;
 }

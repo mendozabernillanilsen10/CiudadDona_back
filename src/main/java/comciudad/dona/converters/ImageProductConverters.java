@@ -1,29 +1,28 @@
 package comciudad.dona.converters;
 
-import comciudad.dona.dtos.ImagesProductDto;
+import comciudad.dona.dtos.imgDesdcripcionDto;
 import comciudad.dona.entity.DescripcionAgua;
 import comciudad.dona.entity.ImagesProduct;
 
-public class ImageProductConverters extends AbstractConverter<ImagesProduct, ImagesProductDto> {
+public class ImageProductConverters extends AbstractConverter<ImagesProduct, imgDesdcripcionDto> {
 	@Override
-	public ImagesProductDto fromEntity(ImagesProduct entity) {
+	public imgDesdcripcionDto fromEntity(ImagesProduct entity) {
 		if (entity == null)
 			return null;
-		return ImagesProductDto.builder()
-				.id(entity.getId())
-				.foto_url(entity.getFoto_url()).build();
+		return imgDesdcripcionDto.builder().id(entity.getId())
+				.fotoBase64(entity.getFoto_url()).build();
 	}
-	
+
 	@Override
-	public ImagesProduct fromDTO(ImagesProductDto dto) {
+	public ImagesProduct fromDTO(imgDesdcripcionDto dto) {
 		if (dto == null)
 			return null;
 		ImagesProduct objet = new ImagesProduct();
 		objet.setId(dto.getId());
-		objet.setFoto_url(dto.getFoto_url());
-		DescripcionAgua product = new DescripcionAgua();
-		product.setId(dto.getIddetalle());
-		objet.setDescripcionAgua(product);
+		objet.setFoto_url(dto.getFotoBase64());
+		DescripcionAgua des = new DescripcionAgua();
+		des.setId(dto.getIddetalle());
+		objet.setDescripcionAgua(des);
 		return objet;
 	}
 

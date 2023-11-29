@@ -1,30 +1,28 @@
 package comciudad.dona.service.impl;
 
-import java.util.List;  
+import java.util.List; 
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import comciudad.dona.entity.DescripcionAgua;
-import comciudad.dona.entity.Oferta;
+import comciudad.dona.entity.Product;
 import comciudad.dona.exceptions.GeneralServiceException;
 import comciudad.dona.exceptions.NoDataFoundException;
 import comciudad.dona.exceptions.ValidateServiceException;
-import comciudad.dona.repository.OfertaRepository;
-import comciudad.dona.service.OfertaService;
+import comciudad.dona.repository.DescripcionAguaRepository;
+import comciudad.dona.service.DescripcionAguaService;
 import lombok.extern.slf4j.Slf4j;
 @Service
 @Slf4j
-public class OfertaServiceimple implements OfertaService {
-
+public class DescripcionAguaServiceImplements implements DescripcionAguaService {
 	@Autowired
-	private OfertaRepository repository;
-
+	DescripcionAguaRepository repository;
 	@Override
-	public List<Oferta> findAll() {
+	public List<DescripcionAgua> findAll() {
+
 		try {
-			List<Oferta> compani = repository.findAll();
+			List<DescripcionAgua> compani = repository.findAll();
 			return compani;
 		} catch (ValidateServiceException | NoDataFoundException e) {
 			log.info(e.getMessage(), e);
@@ -35,11 +33,13 @@ public class OfertaServiceimple implements OfertaService {
 			throw new GeneralServiceException(e.getMessage(), e);
 		}
 	}
+	
+	
 	@Override
-	public Oferta findById(UUID id) {
+	public DescripcionAgua findById(UUID id) {
 		try {
-			Oferta existeRegistro = repository.findById(id)
-					.orElseThrow(() -> new NoDataFoundException("No Existe el Registro adrees"));
+			DescripcionAgua existeRegistro = repository.findById(id)
+					.orElseThrow(() -> new NoDataFoundException("No Existe el Registro"));
 			return existeRegistro;
 		} catch (ValidateServiceException | NoDataFoundException e) {
 			log.info(e.getMessage(), e);
@@ -52,23 +52,21 @@ public class OfertaServiceimple implements OfertaService {
 	}
 
 	@Override
-	public Oferta save(Oferta objet) {
+	public DescripcionAgua save(DescripcionAgua objet) {
 		try {
 			//AddressValid.save(adres);
 			if (objet.getId() == null) {
 				objet.setActivo(true);
-				Oferta nuevoRegistro = repository.save(objet);
+				DescripcionAgua nuevoRegistro = repository.save(objet);
 				return nuevoRegistro;
 			}
-			Oferta existeRegistro = repository.findById(objet.getId())
+			DescripcionAgua existeRegistro = repository.findById(objet.getId())
 					.orElseThrow(() -> new NoDataFoundException("No Existe aseessel Registro"));
-			existeRegistro.setCantidad(objet.getCantidad());
-			existeRegistro.setFechafin(objet.getFechaIncio());
-			existeRegistro.setFechafin(objet.getFechafin());
-			existeRegistro.setNombre(objet.getNombre());
+			existeRegistro.setStock(objet.getStock());
+			existeRegistro.setDetalleEnbase(objet.getDetalleEnbase());
 			existeRegistro.setPrice(objet.getPrice());
+			existeRegistro.setUnidadMedida(objet.getUnidadMedida());
 			repository.save(existeRegistro);
-			
 			return existeRegistro;
 		} catch (ValidateServiceException | NoDataFoundException e) {
 			log.info(e.getMessage(), e);
@@ -78,14 +76,12 @@ public class OfertaServiceimple implements OfertaService {
 			throw new GeneralServiceException(e.getMessage(), e);
 		}
 	}
-
 	@Override
 	public void delete(UUID id) {
 		try {
-			Oferta existeRegistro = repository.findById(id)
+			DescripcionAgua existeRegistro = repository.findById(id)
 					.orElseThrow(() -> new NoDataFoundException("No Existe el Registro"));
-			// existeRegistro.setActivo(false);
-			// repository.save(existeRegistro);
+
 			repository.delete(existeRegistro);
 		} catch (ValidateServiceException | NoDataFoundException e) {
 			log.info(e.getMessage(), e);
@@ -95,10 +91,12 @@ public class OfertaServiceimple implements OfertaService {
 			throw new GeneralServiceException(e.getMessage(), e);
 		}
 	}
+
+
 	@Override
-	public List<Oferta> listaDescripcionProducto(DescripcionAgua objet) {
+	public List<DescripcionAgua> listaDescripcionProducto(Product des) {
 		try {
-			List<Oferta> compani = repository.findBydescripcionAgua(objet);
+			List<DescripcionAgua> compani = repository.findByproduct(des);
 			return compani;
 		} catch (ValidateServiceException | NoDataFoundException e) {
 			log.info(e.getMessage(), e);

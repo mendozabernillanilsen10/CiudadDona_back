@@ -53,8 +53,10 @@ public class SubCategoriaControllers {
 	@Autowired
 	private StoreService storeService;
 	@PostMapping
-	public ResponseEntity<SubCategoryDTO> create(@RequestParam("nombre") String nombre,
-			@RequestParam("foto") MultipartFile foto, @RequestParam("catId") UUID catId
+	public ResponseEntity<SubCategoryDTO> create(
+			@RequestParam("nombre") String nombre,
+			@RequestParam("foto") MultipartFile foto, 
+			@RequestParam("catId") UUID catId
 	) {
 		try {
 			Subcategory subcategoria = new Subcategory();
