@@ -1,6 +1,6 @@
 package comciudad.dona.dtos;
 
-import java.io.Serializable;
+import java.io.Serializable; 
 import java.util.List;
 import java.util.UUID;
 
@@ -21,19 +21,17 @@ public class descripcionAguaDto implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private UUID id;
-	private UUID idProducto;
-    private UUID id_Envase;
-    private String tipo_ensabase;
-    private int stok;
-    private int unidadPaquete;
-    private UUID idmedidaProducto;
-    private String NombreMedida;
-    
-    private Double price;
-    private String  unidadMedida;
-    private String detalleenvase;
-    private List<OfertaDto>oferta;
+	
+	private UUID  id;
+	int stock;
+	int unidadPaquete;
+	private UUID idcontainerType;
+	private UUID id_medidasProducto;
+	private UUID id_unidadMedida;
+	private UUID id_product ;
+	private Double price; 
+	private String DetalleEnbase; 
+	private List<OfertaDto>oferta;
 	private Boolean activo;
     private List<imgDesdcripcionDto> imgDesdcripcion;
 }

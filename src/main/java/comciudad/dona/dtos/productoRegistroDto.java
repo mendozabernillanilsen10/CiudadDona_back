@@ -25,13 +25,15 @@ public class productoRegistroDto implements Serializable {
 	private String cualidad;
 	private UUID id_tipoproducto;
 	private String  nombreTipoProd;
-	
     private UUID idMarca;
     private String nombreMarca;
     private String fotoPrincipalBase64;
     private UUID id_tienda;
     private Boolean activo;
-    private List<descripcionAguaDto> descripcion;
-   
+    private List<UnidadMedidaDto> unidadMedida;
+    
+    
+    
+    
     
 }

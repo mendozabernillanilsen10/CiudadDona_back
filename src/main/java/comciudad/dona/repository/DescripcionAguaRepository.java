@@ -1,17 +1,16 @@
-package comciudad.dona.repository;
-
+package comciudad.dona.repository;  
 import java.util.List; 
 import java.util.UUID;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-
 import comciudad.dona.entity.DescripcionAgua;
-import comciudad.dona.entity.Product;
+import comciudad.dona.entity.MedidasProducto;
+
+
 @Repository
 public interface DescripcionAguaRepository  extends JpaRepository<DescripcionAgua, UUID >{
-	List<DescripcionAgua> findByproduct (Product product);
+    List<DescripcionAgua> findByMedidasProducto(MedidasProducto medidasProducto);
 
 	
 

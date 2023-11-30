@@ -162,6 +162,10 @@ public class AdminController {
 			throw new GeneralServiceException(e.getMessage(), e);
 		}
 	}
+	
+
+	
+	
 
 	@GetMapping("/listaTiendaCompany/{idCompani}")
 	public ResponseEntity<List<CategoriaDTO>> listatiendacompany(
@@ -180,6 +184,10 @@ public class AdminController {
 		}
 		return new WrapperResponse(true, "success", dtos).createResponse(HttpStatus.OK);
 	}
+	
+	
+	
+	
 	
 	
 	private Date parseTimeWithTimeZone(String timeWithTimeZone) {

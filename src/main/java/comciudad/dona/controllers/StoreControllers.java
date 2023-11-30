@@ -37,6 +37,23 @@ public class StoreControllers {
 	@Autowired
 	private StoreService storeservice;
 	
+	@GetMapping("/tienda/{id}")
+	public ResponseEntity<CategoriaDTO> tienda(@PathVariable UUID id) {
+	    Store store = storeservice.findById(id);
+	    if (store != null) {
+	        CategoriaDTO dto = new CategoriaDTO();
+	        dto.setId(store.getId());
+	        dto.setNombre(store.getName());
+	        dto.setFoto_url(MvcUriComponentsBuilder.fromMethodName(StoreControllers.class, "serveFile", store.getFoto_url())
+	                .build().toString());
+	        return new WrapperResponse(true, "success", dto).createResponse(HttpStatus.OK);
+	    } else {
+	        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	    }
+	}
+
+	
+	
 	
 	@GetMapping("/por-distrito-cat-sub/{pIdDistrito}/{pIdCategoria}/{pIdSubcategoria}")
 	public ResponseEntity<List<CategoriaDTO>> obtenerTiendasPorDistrito(@PathVariable Long pIdDistrito,

@@ -36,10 +36,7 @@ public class DescripcionAgua {
 	@GeneratedValue
 	@Column(length = 16)
 	private UUID id;
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "idproduct")
-	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-	private Product product;
+
 
 	@Column(name = "stock", nullable = false)
 	private int stock;
@@ -52,18 +49,25 @@ public class DescripcionAgua {
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	private ContainerType containerType;
 
-	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "idMedidasProducto", nullable = true) 
+	@JoinColumn(name = "idmedidasProducto" , nullable = true)
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	private MedidasProducto medidasProducto;
 	
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idunidadMedida")
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	private UnidadMedida unidadMedida;
+	
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idproducto")
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	private Product Product;
+	
 	@Column(name = "price", nullable = false, columnDefinition = "DECIMAL(10,2)")
 	private Double price;
-
-	@Column(name = "unidadMedida",nullable = false)
-	private String unidadMedida;
 
 	@Column(name="DetalleEnbase", nullable = true)
 	private String DetalleEnbase;
@@ -71,10 +75,10 @@ public class DescripcionAgua {
 	@Column(name = "activo", nullable = false)
 	private Boolean activo;
 	
-	
 	@Column(name = "created_at", nullable = false, updatable = false)
 	@Temporal(TemporalType.TIMESTAMP)
 	@CreatedDate
+	
 	private Date createdAt;
 	@Column(name = "updated_at", nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)

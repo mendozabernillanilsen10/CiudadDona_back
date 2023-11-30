@@ -1,5 +1,5 @@
 package comciudad.dona.service.impl;
-import org.apache.commons.codec.binary.Base64; 
+import org.apache.commons.codec.binary.Base64;  
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -106,7 +106,17 @@ public class productServiceImplements implements productService {
 	
 	@Override
 	public Product findById(UUID id) {
-		return null;
+		try {
+			Product existeRegistro= repository.findById(id)
+					.orElseThrow(()->new NoDataFoundException("No Existe el Registro")); 
+			return existeRegistro;
+		}catch(ValidateServiceException | NoDataFoundException e) {
+			log.info(e.getMessage(), e);
+			throw e;
+		}catch(Exception e) {
+			log.error(e.getMessage());
+			throw new GeneralServiceException(e.getMessage(), e);
+		}
 	}
 
 	@Override

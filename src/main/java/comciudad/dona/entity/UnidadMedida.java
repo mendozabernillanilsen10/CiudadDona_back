@@ -1,5 +1,5 @@
 package comciudad.dona.entity;
-import java.util.UUID; 
+import java.util.UUID;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -20,14 +20,13 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-@Table(name = "MedidasProducto")
-public class MedidasProducto {
+@Table(name = "UnidadMedida")
+public class UnidadMedida {
 	@Id
 	@GeneratedValue
-	@Column(length=16)
+	@Column(length = 16)
 	private UUID id;
-	@Column(name="nombre", length = 500,nullable=false)
-	private String nombre;
-	
-	
+	@Column(name="medida", length = 500)
+	private String medida;
+
 }

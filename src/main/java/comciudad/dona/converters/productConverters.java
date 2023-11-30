@@ -5,6 +5,7 @@ import comciudad.dona.dtos.productoRegistroDto;
 import comciudad.dona.entity.Brand;
 import comciudad.dona.entity.Product;
 import comciudad.dona.entity.Store;
+import comciudad.dona.entity.UnidadMedida;
 import comciudad.dona.entity.typeProduct;
 public class productConverters extends AbstractConverter<Product, productoRegistroDto> {
 
@@ -13,38 +14,29 @@ public class productConverters extends AbstractConverter<Product, productoRegist
 	    if (entity == null) {
 	        return null;
 	    }
-
 	    UUID idTipoProducto = 
 	    		(entity.getIdtypeProduct() != null
 	    		&& entity.getIdtypeProduct().getId() != null)
 	            ? entity.getIdtypeProduct().getId()
 	            : null;
-	    
 	    String nombretipo = (entity.getIdtypeProduct() != null 
 	    		&& entity.getIdtypeProduct().getId() != null)
 	            ? entity.getIdtypeProduct().getTipeProducName()
 	            : null;
-	    
-	    
 	    UUID idMarca = 
 	    		(entity.getBrand() != null
 	    		&& entity.getBrand().getId() != null)
 	            ? entity.getBrand().getId()
 	            : null;
-	    
 	    String  NombreMarca = 
 	    		(entity.getBrand() != null
 	    		&& entity.getBrand().getId() != null)
 	            ? entity.getBrand().getName()
 	            : null;
-	    
-	    
 	     UUID id_tienda= (entity.getStore() != null
 		    		&& entity.getStore().getId() != null)
 		            ? entity.getStore().getId()
 		            : null;
-
-	    
 	    
 	    return productoRegistroDto.builder()
 	            .id(entity.getId())
@@ -77,6 +69,10 @@ public class productConverters extends AbstractConverter<Product, productoRegist
 		typeProduct tipe= new typeProduct();
 		tipe.setId(dto.getId_tipoproducto());
 		objet.setIdtypeProduct(tipe);
+		
+	
+		
+		
 		
 		objet.setStore(store);
 		objet.setBrand(brand);

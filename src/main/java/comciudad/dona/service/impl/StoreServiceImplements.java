@@ -1,6 +1,6 @@
 package comciudad.dona.service.impl;
 
-import java.io.InputStream;
+import java.io.InputStream; 
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -87,11 +87,7 @@ public class StoreServiceImplements implements StoreService {
 
 		}
 	}
-	
-	
-	
-	
-	
+
 	@Override
 	public List<Store> findAll(Pageable page) {
 		// TODO Auto-generated method stub
@@ -100,8 +96,19 @@ public class StoreServiceImplements implements StoreService {
 
 	@Override
 	public Store findById(UUID id) {
-		// TODO Auto-generated method stub
-		return null;
+
+		try {
+			Store existeRegistro = repository.findById(id)
+					.orElseThrow(() -> new NoDataFoundException("No Existe el Registro"));
+			return existeRegistro;
+		} catch (ValidateServiceException | NoDataFoundException e) {
+			log.info(e.getMessage(), e);
+			throw e;
+		} catch (Exception e) {
+			log.error(e.getMessage());
+
+			throw new GeneralServiceException(e.getMessage(), e);
+		}
 	}
 
 	@Override

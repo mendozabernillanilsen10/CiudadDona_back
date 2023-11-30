@@ -1,12 +1,12 @@
 package comciudad.dona.service.impl;
 
-import java.util.List; 
+import java.util.List;  
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import comciudad.dona.entity.DescripcionAgua;
-import comciudad.dona.entity.Product;
+import comciudad.dona.entity.MedidasProducto;
 import comciudad.dona.exceptions.GeneralServiceException;
 import comciudad.dona.exceptions.NoDataFoundException;
 import comciudad.dona.exceptions.ValidateServiceException;
@@ -65,7 +65,6 @@ public class DescripcionAguaServiceImplements implements DescripcionAguaService 
 			existeRegistro.setStock(objet.getStock());
 			existeRegistro.setDetalleEnbase(objet.getDetalleEnbase());
 			existeRegistro.setPrice(objet.getPrice());
-			existeRegistro.setUnidadMedida(objet.getUnidadMedida());
 			repository.save(existeRegistro);
 			return existeRegistro;
 		} catch (ValidateServiceException | NoDataFoundException e) {
@@ -94,9 +93,10 @@ public class DescripcionAguaServiceImplements implements DescripcionAguaService 
 
 
 	@Override
-	public List<DescripcionAgua> listaDescripcionProducto(Product des) {
-		try {
-			List<DescripcionAgua> compani = repository.findByproduct(des);
+	public List<DescripcionAgua> listaDescripMedida(MedidasProducto des) {
+		try {    
+
+			List<DescripcionAgua> compani = repository.findByMedidasProducto(des);
 			return compani;
 		} catch (ValidateServiceException | NoDataFoundException e) {
 			log.info(e.getMessage(), e);

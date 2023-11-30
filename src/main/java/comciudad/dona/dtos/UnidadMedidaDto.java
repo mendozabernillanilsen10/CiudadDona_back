@@ -1,8 +1,6 @@
 package comciudad.dona.dtos;
-
 import java.util.List;
 import java.util.UUID;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,8 +11,10 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class MedidasProductoDTO {
+
+public class UnidadMedidaDto {
 	private UUID id;
-	private String nombre ;
-    private List<descripcionAguaDto> descripcion;
+	private String medida;
+	private UUID idProducto;
+	private List<MedidasProductoDTO> MedidadProducto;
 }
